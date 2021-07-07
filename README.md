@@ -2,7 +2,7 @@
 Social messaging app 
 
 | ------------- | ------------- |
-| Proje yapım aşamasındadır. Kodlar değişiklik gösterebilir.|
+| Proje yapım aşamasındadır. Kodlar değişiklik gösterebilir.
 
 
 ## TR
