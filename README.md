@@ -1,9 +1,8 @@
 # Million
 Social messaging app 
 
-| ------------- | ------------- |
-| Proje yapım aşamasındadır. Kodlar değişiklik gösterebilir.
 
+    | Proje yapım aşamasındadır. Kodlar değişiklik gösterebilir.|
 
 ## TR
 Proje içerisinde *Firebase / google-services.json* dosyası bulunmamaktadır. 
