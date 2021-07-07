@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "925061646392",
+    "project_id": "million-maden",
+    "storage_bucket": "million-maden.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925061646392:android:e74ee3764f135554563ecd",
+        "android_client_info": {
+          "package_name": "com.maden.million"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925061646392-96rj7iaa0gsib30hbn86tdjpjckvs14r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8JgPzsuzK7-EPkOyjztYbJ_FXzuN20BQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925061646392-96rj7iaa0gsib30hbn86tdjpjckvs14r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

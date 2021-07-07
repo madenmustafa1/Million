@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="chatData"
+            type="com.maden.million.model.ChatData" />
+
+        <variable
+            name="userControl"
+            type="com.maden.million.model.UserControlData" />
+
+
+    </data>
+
+    <LinearLayout
+
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.CommentFragment"
+        android:orientation="horizontal"
+        >
+        <!--
+        android:downloadUrl="@{chatListData.profilePhotoUrl}"
+        -->
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/item_chat_adapter">
+
+            <!--
+             #B9CBED
+             #BCE1E6
+             #C4E3F2
+             -->
+
+            <EditText
+                android:text="@{chatData.message}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/text_corners"
+                android:backgroundTint="#B9CBED"
+
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="center"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:paddingStart="10dp"
+
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:scrollbars="vertical"
+                android:hint="Message"
+                android:textColor="#323232"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
+
+
+<!--
+<TextView
+                android:text="@{chatData.username}"
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/text_corners"
+
+                android:clickable="false"
+                android:fillViewport="true"
+                android:focusable="false"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:maxLines="1"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:scrollHorizontally="true"
+                android:hint="Username"
+
+                android:textColor="#2B2B2B"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+-->
