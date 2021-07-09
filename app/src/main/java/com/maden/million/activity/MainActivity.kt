@@ -21,9 +21,7 @@ var GLOBAL_CURRENT_FRAGMENT: String? = null
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
-    //var drawerLayout: DrawerLayout? = null
-    //var navigationView: NavigationView? = null
-    //var toolbar: Toolbar? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
