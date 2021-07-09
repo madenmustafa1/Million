@@ -54,7 +54,8 @@ class ChatViewModel : ViewModel() {
             }
     }
 
-    fun sendMessage(message: String, roomUUID: String) {
+    fun sendMessage(message: String, otherEmail: String,
+                    otherFullName: String, roomUUID: String) {
         if (message != "") {
             val uuid = UUID.randomUUID()
             val chatRef = db.collection("Chats")
@@ -71,6 +72,21 @@ class ChatViewModel : ViewModel() {
                 .add(data)
                 .addOnSuccessListener {
                     println("Başarılı")
+                }.addOnCompleteListener {
+
+                    val updateChatChannel = hashMapOf(
+                        "fullName" to otherFullName,
+                        "email" to auth.currentUser?.email.toString(),
+                        "date" to Timestamp.now(),
+                        "uuid" to roomUUID
+                    )
+
+                    val dbRef = db.collection("Profile")
+                        .document(otherEmail)
+                        .collection("ChatChannel")
+                        .document(auth.currentUser!!.email!!.toString())
+                        .set(updateChatChannel)
+
                 }
         }
     }

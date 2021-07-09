@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,8 @@ import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.adapter.ChatListAdapter
 import com.maden.million.viewmodel.ChatListViewModel
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.appbar_chat_list.*
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 
 
@@ -48,6 +51,8 @@ class ChatListFragment : Fragment() {
         chatListRecyclerView.adapter = chatListAdapter
 
         observeData()
+
+
     }
 
     private fun observeData(){

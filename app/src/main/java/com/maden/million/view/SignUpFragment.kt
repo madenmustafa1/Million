@@ -117,7 +117,9 @@ class SignUpFragment : Fragment() {
             "email" to email,
             "gender" to gender,
             "user" to "user",
-            "followed" to listOf<String>()
+            "like" to listOf<String>(),
+            "dislike" to listOf<String>(),
+            "aboutMe" to ""
         )
 
         //intentLogin()

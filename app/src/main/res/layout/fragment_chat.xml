@@ -10,20 +10,24 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:gravity="end"
+
     >
+
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/appbar_chat" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
-        android:layout_marginTop="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="48dp"
-        />
+        android:layout_marginTop="58dp"
+        android:layout_marginBottom="50dp"
 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include2" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -35,6 +39,8 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent">
+
+
 
         <EditText
             android:id="@+id/sendMessageText"

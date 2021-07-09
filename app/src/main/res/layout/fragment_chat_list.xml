@@ -8,7 +8,9 @@
     android:orientation="vertical"
     android:background="@color/white"
     >
-
+    <include
+        android:id="@+id/include2"
+        layout="@layout/appbar_chat_list" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatListRecyclerView"

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile_drawer"
+            android:icon="@drawable/ic_bottom_user"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_sign_out_drawer"
+            android:icon="@drawable/ic_sign_out"
+            android:title="Sign out" />
+    </group>
+</menu>

@@ -25,6 +25,7 @@ class ChatListViewModel : ViewModel() {
 
         arrayList.clear()
 
+
         dbRef
             .orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener {
@@ -37,18 +38,21 @@ class ChatListViewModel : ViewModel() {
                         .orderBy("date", Query.Direction.DESCENDING)
                         .get().addOnSuccessListener {
                             for(i in it){
+                                println(ini)
+                                val fullName: String = ini["fullName"].toString()
                                 val chat = ChatListData(
-                                    ini["otherUsername"] as String,
-                                    i["email"] as String,
+                                    fullName,
+                                    ini["email"] as String,
                                     i["message"] as String,
                                     ini["uuid"] as String,
                                     "date",
                                     "url"
                                 )
 
-                                val chatList = arrayListOf<ChatListData>(chat)
-                                arrayList.add(chat)
+                                //val chatList = arrayListOf<ChatListData>(chat)
                                 //chatListDataClass.value = chatList
+
+                                arrayList.add(chat)
                                 chatListDataClass.postValue(arrayList)
 
                                 break
@@ -56,59 +60,5 @@ class ChatListViewModel : ViewModel() {
                         }
                 }
             }
-
-
-        /*
-        dbRef
-            .orderBy("date", Query.Direction.DESCENDING)
-            .addSnapshotListener { value, error ->
-
-                if (value != null) {
-                    for (v in value) {
-
-                        val chatRef = db.collection("Chats")
-
-                        chatRef
-                            .document(v["uuid"].toString())
-                            .collection("chat")
-                            .orderBy("date", Query.Direction.DESCENDING)
-                            .addSnapshotListener { value, error ->
-                                if (value != null) {
-
-                                    for (chat in value) {
-                                        val chat = ChatListData(
-                                            chat.data["username"] as String,
-                                            chat.data["email"] as String,
-                                            chat.data["message"] as String,
-                                            chat.data["uuid"] as String,
-                                            "date",
-                                            "url"
-                                        )
-
-                                        val chatList = arrayListOf<ChatListData>(chat)
-
-                                        chatListDataClass.postValue(chatList)
-
-                                        break
-                                    }
-                                }
-                            }
-                    }
-                }
-            }
-                 */
     }
-
-
 }
-
-
-/*
-dbRef
-   // .orderBy("date", Query.Direction.DESCENDING)
-    .get().addOnSuccessListener {
-        for (i in it){
-            //println(i["uuid"])
-        }
-    }
- */

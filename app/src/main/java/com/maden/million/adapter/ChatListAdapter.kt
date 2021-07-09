@@ -37,7 +37,8 @@ class ChatListAdapter(
         holder.view.chatListData = chatList[position]
 
         holder.itemView.setOnClickListener {
-            navToChat(chatList[position].uuid, it)
+            navToChat(chatList[position].uuid, chatList[position].email,
+                    chatList[position].username, it)
         }
     }
 
@@ -51,9 +52,11 @@ class ChatListAdapter(
         return chatList.size
     }
 
-    private fun navToChat(uuid: String, view: View){
+    private fun navToChat(uuid: String, otherEmail: String,
+                          otherUsername: String ,view: View){
+
         val action = ChatListFragmentDirections
-            .actionChatListFragmentToChatFragment(uuid)
+            .actionChatListFragmentToChatFragment(uuid, otherEmail, otherUsername)
         view.findNavController().navigate(action)
         GLOBAL_CURRENT_FRAGMENT = "chat"
     }
