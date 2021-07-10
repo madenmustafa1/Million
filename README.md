@@ -25,15 +25,15 @@ For it to work, you need to create your own database at https://firebase.google.
 
 
 - _NU2_: ImageView Data Binding & Chat u. (U: 11.07.2021) 
-    - NU_1.1: ChatListViewModel => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/viewmodel/ChatListViewModel.kt "this_link")
+    - NU_2.1: ChatListViewModel => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/viewmodel/ChatListViewModel.kt "this_link")
     
-    - NU_1.2: ChatListAdapter => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/adapter/ChatListAdapter.kt "this_link")
+    - NU_2.2: ChatListAdapter => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/adapter/ChatListAdapter.kt "this_link")
 
-    - NU_1.3: item_chat_list => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/res/layout/item_chat_list.xml "this_link")
+    - NU_2.3: item_chat_list => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/res/layout/item_chat_list.xml "this_link")
     
-    - NU_1.4: Profile Fragment => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/view/ProfileFragment.kt "this_link")
+    - NU_2.4: Profile Fragment => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/view/ProfileFragment.kt "this_link")
 
-    - NU_1.4: appbar_chat => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/res/layout/appbar_chat.xml "this_link")
+    - NU_2.5: appbar_chat => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/res/layout/appbar_chat.xml "this_link")
 
 
 
