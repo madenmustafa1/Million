@@ -14,7 +14,7 @@ There is no *Firebase / google-services.json* file in the project.
 For it to work, you need to create your own database at https://firebase.google.com/ and add the *google-services.json* file to your project.
 
 
-
+__
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
