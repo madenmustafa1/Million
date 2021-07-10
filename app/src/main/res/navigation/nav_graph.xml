@@ -43,6 +43,8 @@
         <argument
             android:name="otherUsername"
             app:argType="string" />
+        <argument android:name="downloadPhotoUrl"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

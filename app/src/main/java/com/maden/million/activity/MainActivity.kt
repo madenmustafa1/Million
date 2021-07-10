@@ -21,10 +21,6 @@ var GLOBAL_CURRENT_FRAGMENT: String? = null
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
-    //var drawerLayout: DrawerLayout? = null
-    //var navigationView: NavigationView? = null
-    //var toolbar: Toolbar? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,8 +40,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_menu_view.setNavigationItemSelectedListener(this)
-
-
 
 
     }

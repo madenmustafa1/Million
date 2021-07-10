@@ -38,6 +38,8 @@ class ProfileViewModel: ViewModel() {
                     val instagram = it["instagram"].toString()
                     val twitter = it["twitter"].toString()
 
+                    uProfilePhoto.value =  it["photoUrl"].toString()
+
 
                     // Değişecek----------------------------- //
                     var like = it["followed"] as List<String> //
@@ -55,13 +57,15 @@ class ProfileViewModel: ViewModel() {
                 }
             }.addOnCompleteListener {
 
+                /*
                 ref.child(profileDataClass.value?.get(0)!!.userEmail!!)
                     .child("profilePhoto")
                     .downloadUrl.addOnSuccessListener {
                         if (it != null){
-                            uProfilePhoto.value = it.toString()
+                            //uProfilePhoto.value = it.toString()
                         }
                     }
+                 */
             }
         }
     }

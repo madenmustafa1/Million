@@ -15,6 +15,7 @@ import com.maden.million.view.ChatListFragmentDirections
 
 class ChatListAdapter(
     private val chatList: ArrayList<ChatListData>,
+    private val photoList: ArrayList<DownloadPhotoUrl>
 
 ) : RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder>() {
 
@@ -36,13 +37,18 @@ class ChatListAdapter(
     override fun onBindViewHolder(holder: ChatListViewHolder, position: Int) {
         holder.view.chatListData = chatList[position]
 
+
+
         holder.itemView.setOnClickListener {
             navToChat(chatList[position].uuid, chatList[position].email,
-                    chatList[position].username, it)
+                    chatList[position].username,
+                chatList[position].profilePhotoUrl, it)
         }
     }
 
-    fun updateChatList(newChatList: List<ChatListData>) {
+
+
+    fun updateChatList(newChatList: List<ChatListData>,) {
         chatList.clear()
         chatList.addAll(newChatList)
         notifyDataSetChanged()
@@ -53,10 +59,13 @@ class ChatListAdapter(
     }
 
     private fun navToChat(uuid: String, otherEmail: String,
-                          otherUsername: String ,view: View){
+                          otherUsername: String,
+                          downloadPhotoUrl: String ,view: View){
 
         val action = ChatListFragmentDirections
-            .actionChatListFragmentToChatFragment(uuid, otherEmail, otherUsername)
+            .actionChatListFragmentToChatFragment(uuid, otherEmail,
+                otherUsername, downloadPhotoUrl)
+
         view.findNavController().navigate(action)
         GLOBAL_CURRENT_FRAGMENT = "chat"
     }

@@ -35,7 +35,7 @@ class ChatListFragment : Fragment() {
     }
 
     private lateinit var chatListModel: ChatListViewModel
-    private val chatListAdapter = ChatListAdapter(arrayListOf())
+    private val chatListAdapter = ChatListAdapter(arrayListOf(), arrayListOf())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,5 +61,6 @@ class ChatListFragment : Fragment() {
                 chatListAdapter.updateChatList(it)
             }
         })
+
     }
 }

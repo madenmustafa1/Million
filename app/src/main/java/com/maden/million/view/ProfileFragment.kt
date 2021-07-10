@@ -201,7 +201,6 @@ class ProfileFragment : Fragment() {
                         val data = baos.toByteArray()
                         ref.child(auth.currentUser!!.email!!).child("profilePhoto").putBytes(data)
                             .addOnSuccessListener {
-                                println("Başarılı")
                                 var photoUrl: String = ""
 
 

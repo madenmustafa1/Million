@@ -7,6 +7,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maden.million.model.ChatListData
+import com.maden.million.model.DownloadPhotoUrl
 
 class ChatListViewModel : ViewModel() {
 
@@ -18,18 +19,21 @@ class ChatListViewModel : ViewModel() {
 
     fun getMyChatList() {
 
-
+        //###############################################
+        //Kullanıcının kimlerle mesajlaştığının bilgisi.
+        //###############################################
         val dbRef = db.collection("Profile")
             .document(auth.currentUser!!.email!!.toString())
             .collection("ChatChannel")
 
         arrayList.clear()
 
-
-        dbRef
-            .orderBy("date", Query.Direction.DESCENDING)
+        //###############################################
+        //Kullanıcının sohbetleri getirmek için.
+        //###############################################
+        dbRef.orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener {
-                for(ini in it) {
+                for (ini in it) {
 
                     val chatRef = db.collection("Chats")
                     chatRef
@@ -37,23 +41,33 @@ class ChatListViewModel : ViewModel() {
                         .collection("chat")
                         .orderBy("date", Query.Direction.DESCENDING)
                         .get().addOnSuccessListener {
-                            for(i in it){
-                                println(ini)
+                            for (i in it) {
+                                val email = ini["email"] as String
                                 val fullName: String = ini["fullName"].toString()
-                                val chat = ChatListData(
-                                    fullName,
-                                    ini["email"] as String,
-                                    i["message"] as String,
-                                    ini["uuid"] as String,
-                                    "date",
-                                    "url"
-                                )
 
-                                //val chatList = arrayListOf<ChatListData>(chat)
-                                //chatListDataClass.value = chatList
 
-                                arrayList.add(chat)
-                                chatListDataClass.postValue(arrayList)
+                                //###############################################
+                                // Kulllanıcı Profil fotoğrafı.
+                                //###############################################
+
+                                val dbRef = db.collection("Profile")
+                                    .document(email)
+                                dbRef.get().addOnSuccessListener { a ->
+
+
+                                    val chat = ChatListData(
+                                        fullName,
+                                        email,
+                                        i["message"] as String,
+                                        ini["uuid"] as String,
+                                        "date",
+                                        a["photoUrl"].toString()
+                                    )
+
+                                    arrayList.add(chat)
+                                    chatListDataClass.postValue(arrayList)
+
+                                }
 
                                 break
                             }

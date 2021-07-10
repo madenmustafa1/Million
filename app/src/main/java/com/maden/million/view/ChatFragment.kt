@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.adapter.ChatAdapter
+import com.maden.million.util.downloadPhoto
 import com.maden.million.viewmodel.ChatViewModel
 import kotlinx.android.synthetic.main.appbar_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -37,6 +38,7 @@ class ChatFragment : Fragment() {
     var chatUUID: String? = null
     var otherEmail: String? = null
     var otherFullName: String? = null
+    var downloadPhotoUrl: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,8 +51,8 @@ class ChatFragment : Fragment() {
             chatUUID = ChatFragmentArgs.fromBundle(it).uuid
             otherEmail = ChatFragmentArgs.fromBundle(it).otherEmail
             otherFullName = ChatFragmentArgs.fromBundle(it).otherUsername
+            downloadPhotoUrl = ChatFragmentArgs.fromBundle(it).downloadPhotoUrl
 
-            otherFullNameAppBar.text = otherFullName
 
             if (chatUUID != null) {
                 chatViewModel.getMyChat(chatUUID!!)
@@ -77,6 +79,13 @@ class ChatFragment : Fragment() {
                 chatAdapter.updateChatList(it)
             }
         })
+
+        if(otherUserProfilePhotoAppBar != null){
+            otherUserProfilePhotoAppBar.downloadPhoto(downloadPhotoUrl!!)
+        }
+        if(otherFullName != null){
+            otherFullNameAppBar.text = otherFullName
+        }
     }
 
     private fun goBackButtonFun(){
