@@ -70,14 +70,3 @@ class ChatListAdapter(
         GLOBAL_CURRENT_FRAGMENT = "chat"
     }
 }
-/*
-
-    private fun nav(view: View){
-        if(GLOBAL_CURRENT_FRAGMENT == "search_story"){
-            val action =
-                SearchFragmentDirections.actionSearchFragmentToOtherUserProfileFragment(otherUserEmail)
-            view.findNavController().navigate(action)
-            GLOBAL_CURRENT_FRAGMENT = "other_profile_story"
-        }
-    }
- */
