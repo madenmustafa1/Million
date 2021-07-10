@@ -23,6 +23,7 @@ For it to work, you need to create your own database at https://firebase.google.
 
     - NU_1.2: appbar_chat_list & drawer_menu  & drawer_header => [this_link](https://github.com/madenmustafa1/Million/tree/main/app/src/main/res/layout "this_link")
 
+
 - _NU2_: ImageView Data Binding & Chat u. (U: 11.07.2021) 
     - NU_1.1: ChatListViewModel => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/viewmodel/ChatListViewModel.kt "this_link")
     
