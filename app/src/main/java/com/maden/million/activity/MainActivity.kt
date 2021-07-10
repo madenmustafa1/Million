@@ -21,6 +21,11 @@ var GLOBAL_CURRENT_FRAGMENT: String? = null
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 0d2b0a3cf50ebec5165d6713d067cedc9905eec3
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
