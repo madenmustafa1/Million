@@ -69,5 +69,11 @@
         <action
             android:id="@+id/action_otherProfileFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_otherProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <argument
+            android:name="otherUserEmail"
+            app:argType="string" />
     </fragment>
 </navigation>

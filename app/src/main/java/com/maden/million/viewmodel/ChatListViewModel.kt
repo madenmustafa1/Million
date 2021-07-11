@@ -31,37 +31,38 @@ class ChatListViewModel : ViewModel() {
         //###############################################
         //Kullanıcının sohbetleri getirmek için.
         //###############################################
+
         dbRef.orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener {
-                for (ini in it) {
+                for (chatChannel in it) {
 
                     val chatRef = db.collection("Chats")
                     chatRef
-                        .document(ini["uuid"].toString())
+                        .document(chatChannel["uuid"].toString())
                         .collection("chat")
                         .orderBy("date", Query.Direction.DESCENDING)
                         .get().addOnSuccessListener {
                             for (i in it) {
-                                val email = ini["email"] as String
-                                val fullName: String = ini["fullName"].toString()
+                                val email = chatChannel["email"] as String
+                                val fullName: String = chatChannel["fullName"].toString()
 
-
+                                println(email)
                                 //###############################################
                                 // Kulllanıcı Profil fotoğrafı.
                                 //###############################################
 
+                                //Düzenlenecek.
                                 val dbRef = db.collection("Profile")
                                     .document(email)
-                                dbRef.get().addOnSuccessListener { a ->
-
+                                dbRef.get().addOnSuccessListener { photoUrl ->
 
                                     val chat = ChatListData(
                                         fullName,
                                         email,
                                         i["message"] as String,
-                                        ini["uuid"] as String,
+                                        chatChannel["uuid"] as String,
                                         "date",
-                                        a["photoUrl"].toString()
+                                        photoUrl["photoUrl"].toString()
                                     )
 
                                     arrayList.add(chat)

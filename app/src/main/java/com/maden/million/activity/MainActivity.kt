@@ -21,11 +21,6 @@ var GLOBAL_CURRENT_FRAGMENT: String? = null
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 0d2b0a3cf50ebec5165d6713d067cedc9905eec3
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -81,10 +76,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
-
+    val bottomButtons: BottomButtons = BottomButtons()
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.nav_profile_drawer){
             Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+
         } else if (item.itemId == R.id.nav_sign_out_drawer){
             Firebase.auth.signOut()
             val intent = Intent(applicationContext, LoginActivity::class.java)

@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import com.maden.million.R
 import com.maden.million.view.ChatFragmentDirections
 import com.maden.million.view.ChatListFragmentDirections
+import com.maden.million.view.OtherProfileFragmentDirections
 import com.maden.million.view.ProfileFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bottom_buttons.*
 
@@ -33,37 +34,61 @@ class BottomButtons : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bottomMessageButton.setOnClickListener {
-
-            if (GLOBAL_CURRENT_FRAGMENT != "chat_list") {
-
-                if (GLOBAL_CURRENT_FRAGMENT == "chat") {
-                    val action = ChatFragmentDirections
-                        .actionChatFragmentToChatListFragment()
-                    Navigation.findNavController(requireActivity(),
-                        R.id.main_fragment_layout)
-                        .navigate(action)
-
-                    GLOBAL_CURRENT_FRAGMENT = "chat_list"
-                } else if (GLOBAL_CURRENT_FRAGMENT == "profile") {
-
-                    val action = ProfileFragmentDirections.
-                    actionProfileFragmentToChatListFragment()
-
-                    Navigation.findNavController(
-                        requireActivity(),
-                        R.id.main_fragment_layout
-                    )
-                        .navigate(action)
-
-                    GLOBAL_CURRENT_FRAGMENT = "chat_list"
-                }
-
-            }
+            navMessage()
         }
 
         bottomUserProfileButton.setOnClickListener {
-            if (GLOBAL_CURRENT_FRAGMENT != "profile") {
-                if (GLOBAL_CURRENT_FRAGMENT == "chat") {
+            navUserProfile()
+        }
+
+    }
+
+    private fun navMessage(){
+
+        if (GLOBAL_CURRENT_FRAGMENT != "chat_list") {
+
+            if (GLOBAL_CURRENT_FRAGMENT == "chat") {
+                val action = ChatFragmentDirections
+                    .actionChatFragmentToChatListFragment()
+                Navigation.findNavController(requireActivity(),
+                    R.id.main_fragment_layout)
+                    .navigate(action)
+
+                GLOBAL_CURRENT_FRAGMENT = "chat_list"
+            } else if (GLOBAL_CURRENT_FRAGMENT == "profile") {
+
+                val action = ProfileFragmentDirections.
+                actionProfileFragmentToChatListFragment()
+
+                Navigation.findNavController(
+                    requireActivity(),
+                    R.id.main_fragment_layout
+                )
+                    .navigate(action)
+
+                GLOBAL_CURRENT_FRAGMENT = "chat_list"
+            } else if(GLOBAL_CURRENT_FRAGMENT == "other_profile"){
+
+                val action =
+                    OtherProfileFragmentDirections
+                        .actionOtherProfileFragmentToChatListFragment()
+
+                Navigation.findNavController(
+                    requireActivity(),
+                    R.id.main_fragment_layout
+                )
+                    .navigate(action)
+
+                GLOBAL_CURRENT_FRAGMENT = "chat_list"
+            }
+
+        }
+    }
+
+    private fun navUserProfile(){
+        if (GLOBAL_CURRENT_FRAGMENT != "profile") {
+            when (GLOBAL_CURRENT_FRAGMENT) {
+                "chat" -> {
                     val action = ChatFragmentDirections
                         .actionChatFragmentToProfileFragment()
                     Navigation.findNavController(
@@ -74,11 +99,11 @@ class BottomButtons : Fragment() {
 
                     GLOBAL_CURRENT_FRAGMENT = "profile"
 
-                } else if (GLOBAL_CURRENT_FRAGMENT == "chat_list") {
+                }
+                "chat_list" -> {
 
                     val action =
-                        ChatListFragmentDirections.
-                        actionChatListFragmentToProfileFragment()
+                        ChatListFragmentDirections.actionChatListFragmentToProfileFragment()
 
                     Navigation.findNavController(
                         requireActivity(),
@@ -89,42 +114,23 @@ class BottomButtons : Fragment() {
                     GLOBAL_CURRENT_FRAGMENT = "profile"
 
                 }
-            }
-        }
 
-    }
-}
+                "other_profile" -> {
+                    val action =
+                        OtherProfileFragmentDirections
+                            .actionOtherProfileFragmentToProfileFragment()
 
-/*
-        homeButton.setOnClickListener {
-            if(GLOBAL_CURRENT_FRAGMENT != "show_story"){
-                when (GLOBAL_CURRENT_FRAGMENT) {
-                    "search_story" -> {
-                        val action = SearchFragmentDirections.actionSearchFragmentToShowStoryFragment()
-                        Navigation.findNavController(requireActivity(), R.id.main_navigation).navigate(action)
-                        GLOBAL_CURRENT_FRAGMENT = "show_story"
-                    }
-                    "add_story" -> {
-                        val action = AddStoryFragmentDirections.actionAddStoryFragmentToShowStoryFragment()
-                        Navigation.findNavController(requireActivity(), R.id.main_navigation).navigate(action)
-                        GLOBAL_CURRENT_FRAGMENT = "show_story"
-                    }
-                    "profile_story" -> {
-                        val action = UserProfileFragmentDirections.actionUserProfileFragmentToShowStoryFragment()
-                        Navigation.findNavController(requireActivity(), R.id.main_navigation).navigate(action)
-                        GLOBAL_CURRENT_FRAGMENT = "show_story"
-                    }
-                    "other_profile_story" -> {
-                        val action = OtherUserProfileFragmentDirections.actionOtherUserProfileFragmentToShowStoryFragment()
-                        Navigation.findNavController(requireActivity(), R.id.main_navigation).navigate(action)
-                        GLOBAL_CURRENT_FRAGMENT = "show_story"
-                    }
-                    "comment_story" -> {
-                        val action = CommentFragmentDirections.actionCommentFragmentToShowStoryFragment()
-                        Navigation.findNavController(requireActivity(), R.id.main_navigation).navigate(action)
-                        GLOBAL_CURRENT_FRAGMENT = "show_story"
-                    }
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.main_fragment_layout
+                    )
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "profile"
                 }
+
             }
         }
- */
+    }
+
+}

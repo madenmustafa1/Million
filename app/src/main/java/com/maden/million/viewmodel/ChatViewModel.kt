@@ -2,13 +2,17 @@ package com.maden.million.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.maden.million.R
+import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.adapter.ChatAdapter
 import com.maden.million.model.ChatData
+import com.maden.million.view.ChatFragmentDirections
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -71,7 +75,7 @@ class ChatViewModel : ViewModel() {
                 .collection("chat")
                 .add(data)
                 .addOnSuccessListener {
-                    println("Başarılı")
+
                 }.addOnCompleteListener {
 
                     val updateChatChannel = hashMapOf(
@@ -90,5 +94,7 @@ class ChatViewModel : ViewModel() {
                 }
         }
     }
+
+
 }
 

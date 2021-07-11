@@ -119,7 +119,11 @@ class SignUpFragment : Fragment() {
             "user" to "user",
             "like" to listOf<String>(),
             "dislike" to listOf<String>(),
-            "aboutMe" to ""
+            "aboutMe" to "",
+            "facebook" to "",
+            "instagram" to "",
+            "twitter" to "",
+            "photoUrl" to ""
         )
 
         //intentLogin()

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.maden.million.R
@@ -12,6 +13,7 @@ import com.maden.million.databinding.ItemChatListBinding
 import com.maden.million.model.ChatListData
 import com.maden.million.model.DownloadPhotoUrl
 import com.maden.million.view.ChatListFragmentDirections
+import com.maden.million.view.OtherProfileFragmentDirections
 
 class ChatListAdapter(
     private val chatList: ArrayList<ChatListData>,
@@ -44,6 +46,11 @@ class ChatListAdapter(
                     chatList[position].username,
                 chatList[position].profilePhotoUrl, it)
         }
+
+        holder.itemView.setOnLongClickListener {
+            navToOtherProfile(chatList[position].email, it)
+            true
+        }
     }
 
 
@@ -68,5 +75,19 @@ class ChatListAdapter(
 
         view.findNavController().navigate(action)
         GLOBAL_CURRENT_FRAGMENT = "chat"
+    }
+
+
+    private fun navToOtherProfile(otherUserEmail: String,view: View){
+        val action =
+            ChatListFragmentDirections
+                .actionChatListFragmentToOtherProfileFragment(otherUserEmail)
+
+
+        view.findNavController().navigate(action)
+
+        GLOBAL_CURRENT_FRAGMENT = "other_profile"
+
+
     }
 }

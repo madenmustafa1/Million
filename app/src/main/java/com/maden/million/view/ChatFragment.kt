@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maden.million.R
+import com.maden.million.activity.BottomButtons
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.adapter.ChatAdapter
 import com.maden.million.util.downloadPhoto
@@ -20,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 
 
 class ChatFragment : Fragment() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,8 @@ class ChatFragment : Fragment() {
 
     private lateinit var chatViewModel: ChatViewModel
     private val chatAdapter = ChatAdapter(arrayListOf())
+
+
     var chatUUID: String? = null
     var otherEmail: String? = null
     var otherFullName: String? = null
@@ -62,12 +64,10 @@ class ChatFragment : Fragment() {
         chatRecyclerView.layoutManager = LinearLayoutManager(context)
         chatRecyclerView.adapter = chatAdapter
 
-        sendMessageButton.setOnClickListener {
-            sendMessage()
-        }
-
-        goBackButton.setOnClickListener {
-            goBackButtonFun()
+        sendMessageButton.setOnClickListener { sendMessage() }
+        goBackButton.setOnClickListener { goBackButtonFun() }
+        otherUserProfilePhotoAppBar.setOnClickListener {
+            navOtherUserProfile()
         }
 
         observeData()
@@ -80,10 +80,10 @@ class ChatFragment : Fragment() {
             }
         })
 
-        if(otherUserProfilePhotoAppBar != null){
+        if(otherUserProfilePhotoAppBar != null && downloadPhotoUrl != null){
             otherUserProfilePhotoAppBar.downloadPhoto(downloadPhotoUrl!!)
         }
-        if(otherFullName != null){
+        if(otherFullName != null && otherFullNameAppBar != null){
             otherFullNameAppBar.text = otherFullName
         }
     }
@@ -114,4 +114,22 @@ class ChatFragment : Fragment() {
             sendMessageText.setText("")
         }
     }
+
+
+    private fun navOtherUserProfile(){
+        val otherUserEmail = otherEmail.toString()
+        if(otherUserEmail != "" && otherUserEmail != null){
+            val action = ChatFragmentDirections
+                .actionChatFragmentToOtherProfileFragment(otherUserEmail)
+            Navigation.findNavController(
+                requireActivity(),
+                R.id.main_fragment_layout
+            )
+                .navigate(action)
+
+            GLOBAL_CURRENT_FRAGMENT = "other_profile"
+        }
+
+    }
+
 }
