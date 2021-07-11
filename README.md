@@ -18,7 +18,7 @@ For it to work, you need to create your own database at https://firebase.google.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-- _NU3_: OtherUserProfile (U: 10.07.2021) 
+- _NU3_: OtherUserProfile (U: 12.07.2021) 
     - NU_3.1: OtherProfileFragment => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/view/OtherProfileFragment.kt "this_link")
 
     - NU_3.2: OtherProfileViewModel => [this_link](https://github.com/madenmustafa1/Million/blob/main/app/src/main/java/com/maden/million/viewmodel/OtherProfileViewModel.kt "this_link")
