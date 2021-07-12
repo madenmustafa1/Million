@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_chatListFragment_to_otherProfileFragment"
             app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_chatListFragment_to_getNewUserFragment"
+            app:destination="@id/getNewUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -45,6 +48,9 @@
             app:argType="string" />
         <argument android:name="downloadPhotoUrl"
             app:argType="string" />
+        <action
+            android:id="@+id/action_chatFragment_to_getNewUserFragment"
+            app:destination="@id/getNewUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -57,6 +63,9 @@
         <action
             android:id="@+id/action_profileFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_getNewUserFragment"
+            app:destination="@id/getNewUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/otherProfileFragment"
@@ -75,5 +84,26 @@
         <argument
             android:name="otherUserEmail"
             app:argType="string" />
+        <action
+            android:id="@+id/action_otherProfileFragment_to_getNewUserFragment"
+            app:destination="@id/getNewUserFragment" />
+        <action
+            android:id="@+id/action_otherProfileFragment_to_getNewUserFragment2"
+            app:destination="@id/getNewUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/getNewUserFragment"
+        android:name="com.maden.million.view.GetNewUserFragment"
+        android:label="fragment_get_new_user"
+        tools:layout="@layout/fragment_get_new_user" >
+        <action
+            android:id="@+id/action_getNewUserFragment_to_chatListFragment"
+            app:destination="@id/chatListFragment" />
+        <action
+            android:id="@+id/action_getNewUserFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_getNewUserFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
 </navigation>

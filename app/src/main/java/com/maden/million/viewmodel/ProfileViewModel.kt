@@ -41,10 +41,10 @@ class ProfileViewModel: ViewModel() {
                     uProfilePhoto.value =  it["photoUrl"].toString()
 
 
-                    // Değişecek----------------------------- //
-                    var like = it["like"] as List<String> //
-                    var dislike = it["like"] as List<*>  //
-                    // ---------------------------------------//
+
+                    var like = it["like"] as List<String>
+                    var dislike = it["dislike"] as List<*>
+
 
                     val myProfileData = UserProfileData(
                         nameSurname, email, username,

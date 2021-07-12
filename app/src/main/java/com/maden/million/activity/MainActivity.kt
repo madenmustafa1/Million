@@ -1,5 +1,6 @@
 package com.maden.million.activity
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.appbar_chat_list.toolbar
 
 var GLOBAL_CURRENT_FRAGMENT: String? = null
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +44,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater

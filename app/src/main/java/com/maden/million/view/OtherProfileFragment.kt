@@ -35,7 +35,10 @@ class OtherProfileFragment : Fragment() {
 
     private lateinit var otherProfileViewModel: OtherProfileViewModel
     var otherUserEmail: String? = null
-    
+
+    var likeControl: Boolean? = null
+    var dislikeControl: Boolean? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,6 +51,7 @@ class OtherProfileFragment : Fragment() {
             otherUserEmail = OtherProfileFragmentArgs.fromBundle(it).otherUserEmail
             if (otherUserEmail != null && otherUserEmail != "") {
                 otherProfileViewModel.getOtherUserProfile(otherUserEmail!!)
+                otherProfileViewModel.likeAndDislikeControl(otherUserEmail!!)
             }
         }
 
@@ -56,6 +60,10 @@ class OtherProfileFragment : Fragment() {
         otherProfileInstagramIcon.setOnClickListener { goToMyInstagram() }
         otherProfileTwitterIcon.setOnClickListener { goToMyTwitter() }
         otherProfileFacebookIcon.setOnClickListener { goToMyFacebook() }
+
+        otherUserLikeIcon.setOnClickListener { likeControlFun() }
+        otherUserDislikeIcon.setOnClickListener { dislikeControlFun()}
+
     }
 
     private fun observeMyProfileData() {
@@ -64,8 +72,7 @@ class OtherProfileFragment : Fragment() {
                 otherUserNameSurname.text = it[0].userNameSurname
                 otherUsername.text = "#"+it[0].username
                 otherUserAboutMe.setText(it[0].aboutMe)
-                otherUserLikeText.text = it[0].like
-                otherUserDisLikeText.text = it[0].dislike
+
                 instagram = it[0].instagram
                 facebook = it[0].facebook
                 twitter = it[0].twitter
@@ -77,9 +84,69 @@ class OtherProfileFragment : Fragment() {
                 otherUserProfilePhoto.downloadPhoto(it)
             }
         })
+
+        otherProfileViewModel.otherUserLikeControl.observe(viewLifecycleOwner, Observer {
+            //Like control
+
+            likeControl = if (it){
+                otherUserLikeIcon.setAlpha(127)
+                otherUserDislikeIcon.setAlpha(255)
+
+                true
+            } else { false }
+        })
+
+        otherProfileViewModel.otherUserDislikeControl.observe(viewLifecycleOwner, Observer {
+            //Dislike control
+
+            dislikeControl = if(it){
+                otherUserDislikeIcon.setAlpha(127)
+                otherUserLikeIcon.setAlpha(255)
+
+                true
+            } else { false }
+        })
+
+        otherProfileViewModel.otherUserLikeSize.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                otherUserLikeText.text = it
+            }
+        })
+
+        otherProfileViewModel.otherUserDislikeSize.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                otherUserDisLikeText.text = it
+            }
+        })
+
     }
 
+    private fun likeControlFun(){
+        if (likeControl == true){
+            otherUserLikeIcon.setAlpha(255)
+            likeControl = false
+        } else if(likeControl == false){
+            otherUserLikeIcon.setAlpha(127)
+            likeControl = true
+        }
 
+        if (otherUserEmail != null && otherUserEmail != ""){
+            otherProfileViewModel.otherUserProfileLike(otherUserEmail!!)
+        }
+    }
+    private fun dislikeControlFun(){
+        if (dislikeControl == true){
+            otherUserDislikeIcon.setAlpha(255)
+            dislikeControl = false
+        } else if(dislikeControl == false){
+            otherUserDislikeIcon.setAlpha(127)
+            dislikeControl = true
+        }
+
+        if (otherUserEmail != null && otherUserEmail != ""){
+            otherProfileViewModel.otherUserProfileDislike(otherUserEmail!!)
+        }
+    }
 
 
 
