@@ -13,11 +13,9 @@ class ProfileViewModel: ViewModel() {
     private var db = Firebase.firestore
     private var auth = Firebase.auth
 
-    private val storage = FirebaseStorage.getInstance()
-
     val profileDataClass = MutableLiveData<List<UserProfileData>>()
-
     val uProfilePhoto = MutableLiveData<String>()
+
     fun getMyProfile() {
 
 
@@ -33,6 +31,7 @@ class ProfileViewModel: ViewModel() {
                     val email = it["email"].toString()
                     val username = it["username"].toString()
                     val aboutMe = it ["aboutMe"].toString()
+
 
                     val facebook = it["facebook"].toString()
                     val instagram = it["instagram"].toString()

@@ -59,6 +59,7 @@ class ChatListFragment : Fragment() {
         chatListModel.chatListDataClass.observe(viewLifecycleOwner, Observer {
             it?.let {
                 chatListAdapter.updateChatList(it)
+
             }
         })
 

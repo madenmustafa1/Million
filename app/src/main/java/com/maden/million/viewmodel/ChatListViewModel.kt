@@ -46,7 +46,6 @@ class ChatListViewModel : ViewModel() {
                                 val email = chatChannel["email"] as String
                                 val fullName: String = chatChannel["fullName"].toString()
 
-                                println(email)
                                 //###############################################
                                 // Kulllanıcı Profil fotoğrafı.
                                 //###############################################

@@ -135,7 +135,7 @@ class ProfileFragment : Fragment() {
 
 
     //####### ####### ####### ####### #######
-    //#######  HEPSİ Viewmodel'e geçecek #######
+    //#######  HEPSİ ViewModel'e geçecek #######
     //####### ####### ####### ####### #######
     private fun askForPermissions() {
         if (ContextCompat.checkSelfPermission(

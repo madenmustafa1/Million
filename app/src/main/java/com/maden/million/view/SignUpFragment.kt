@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -54,6 +55,8 @@ class SignUpFragment : Fragment() {
 
         signInText.setOnClickListener { intentSignIn() }
         signUpButton.setOnClickListener { signUpF(it)  }
+
+
     }
 
     fun intentSignIn(){
@@ -126,10 +129,24 @@ class SignUpFragment : Fragment() {
             "photoUrl" to ""
         )
 
+        val dbRef = db.collection("Profile")
+
         //intentLogin()
-        db.collection("Profile").document(email!!)
+        dbRef.document(email!!)
             .set(profile)
             .addOnSuccessListener {  }
             .addOnFailureListener{ println("Fail$it") }
+
+
+
+        val dbListRef = db.collection("NewUserList")
+        dbListRef
+            .document("emails")
+            .update(
+                "emails",
+                FieldValue.arrayUnion(email),
+                "emailSize",
+                FieldValue.increment(1)
+            )
     }
 }
