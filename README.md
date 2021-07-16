@@ -16,5 +16,4 @@ For it to work, you need to create your own database at https://firebase.google.
 
 
 
-https://user-images.githubusercontent.com/67011777/126012665-01e93e17-e84d-4e98-91a0-cc7dd645b5d0.mp4
 
