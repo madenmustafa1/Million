@@ -80,7 +80,8 @@ class ChatFragment : Fragment() {
             }
         })
 
-        if(otherUserProfilePhotoAppBar != null && downloadPhotoUrl != null){
+        if(otherUserProfilePhotoAppBar != null
+            && downloadPhotoUrl != null && downloadPhotoUrl != ""){
             otherUserProfilePhotoAppBar.downloadPhoto(downloadPhotoUrl!!)
         }
         if(otherFullName != null && otherFullNameAppBar != null){

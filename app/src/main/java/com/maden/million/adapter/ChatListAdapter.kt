@@ -40,7 +40,6 @@ class ChatListAdapter(
         holder.view.chatListData = chatList[position]
 
 
-
         holder.itemView.setOnClickListener {
             navToChat(chatList[position].uuid, chatList[position].email,
                     chatList[position].username,

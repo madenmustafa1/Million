@@ -7,11 +7,13 @@ import com.squareup.picasso.Picasso
 
 fun ImageView.downloadPhoto(url: String) {
 
-    Picasso.get()
-        .load(url)
-        .placeholder(R.drawable.ic_profile_place_holder)
-        .error(R.drawable.ic_profile_place_holder)
-        .into(this)
+    if(url != "" && url != null){
+        Picasso.get()
+            .load(url)
+            .placeholder(R.drawable.ic_profile_place_holder)
+            .error(R.drawable.ic_profile_place_holder)
+            .into(this)
+    }
 }
 
 @BindingAdapter("android:downloadUrl")

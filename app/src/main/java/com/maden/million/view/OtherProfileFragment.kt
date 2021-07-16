@@ -36,8 +36,8 @@ class OtherProfileFragment : Fragment() {
     private lateinit var otherProfileViewModel: OtherProfileViewModel
     var otherUserEmail: String? = null
 
-    var likeControl: Boolean? = null
-    var dislikeControl: Boolean? = null
+    var likeControl: Boolean? = false
+    var dislikeControl: Boolean? = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

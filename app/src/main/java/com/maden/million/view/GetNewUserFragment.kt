@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.util.downloadPhoto
@@ -33,8 +34,13 @@ class GetNewUserFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_get_new_user, container, false)
     }
 
+    private var newUserEmail: String? = null
+    private var newUserFullName: String? = null
+    private var newUserDownloadPhoto: String = ""
+    private var newUserRoomUUID: String? = null
 
     private lateinit var getNewUserViewModel: GetNewUserViewModel
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,45 +51,72 @@ class GetNewUserFragment : Fragment() {
 
         getNewUserButton.setOnClickListener {
             getNewUserViewModel.getNewUser()
-
             moveToRocket()
         }
 
+
+        startChatButton.setOnClickListener {
+            startChat(it)
+        }
 
         observeData()
     }
 
 
-    private fun observeData(){
+    private fun observeData() {
         getNewUserViewModel.newUserDataClass.observe(viewLifecycleOwner, Observer {
             it?.let {
-                println(it.userNameSurname)
 
                 newUserProfileInfo.visibility = View.VISIBLE
                 getNewUserButton.visibility = View.GONE
-
                 newUserNameSurname.text = it.userNameSurname
                 newUserUsername.text = it.username
                 newUserUserAboutMe.setText(it.aboutMe)
 
-                if (it.photoUrl != ""){
+                newUserEmail = it.email
+                newUserFullName = it.userNameSurname
+
+                if (it.photoUrl != "") {
                     newUserProfilePhoto.downloadPhoto(it.photoUrl)
-
+                    newUserDownloadPhoto = it.photoUrl
                 }
-                //newUserProfilePhoto.downloadPhoto(it.photoUrl)
+            }
+        })
 
+        getNewUserViewModel.newChatRoomUUID.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                newUserRoomUUID = it
             }
         })
     }
 
+    private fun startChat(view: View){
+        if (newUserEmail != "" && newUserEmail != null &&
+            newUserFullName != "" && newUserFullName != null) {
+
+            getNewUserViewModel.startChat(newUserEmail!!, newUserFullName!!)
+
+            if(newUserRoomUUID != "" && newUserRoomUUID != null){
 
 
+                navToChat(newUserRoomUUID!!, newUserEmail!!,
+                    newUserFullName!!, newUserDownloadPhoto!!, view)
+            }
+        }
+    }
+    private fun navToChat(uuid: String, otherEmail: String,
+                          otherUsername: String,
+                          downloadPhotoUrl: String, view: View){
 
+        val action = GetNewUserFragmentDirections
+            .actionGetNewUserFragmentToChatFragment(uuid, otherEmail,
+                otherUsername, downloadPhotoUrl)
 
+        view.findNavController().navigate(action)
+        GLOBAL_CURRENT_FRAGMENT = "chat"
+    }
 
-
-
-    fun moveToRocket(){
+    fun moveToRocket() {
         /*
         val path = Path().apply {
             arcTo(0f, 0f, 1000f, 1000f, testAnim.pivotX, -360f, true)
@@ -104,6 +137,5 @@ class GetNewUserFragment : Fragment() {
             start()
 
         }
-
     }
 }

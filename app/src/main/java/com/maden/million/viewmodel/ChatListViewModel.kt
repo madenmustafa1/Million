@@ -17,6 +17,11 @@ class ChatListViewModel : ViewModel() {
     val chatListDataClass = MutableLiveData<ArrayList<ChatListData>>()
     val arrayList: ArrayList<ChatListData> = ArrayList<ChatListData>()
 
+    val fullName = ArrayList<String>()
+    val email = ArrayList<String>()
+    val uuid = ArrayList<String>()
+    val message = ArrayList<String>()
+
     fun getMyChatList() {
 
         //###############################################
@@ -26,12 +31,14 @@ class ChatListViewModel : ViewModel() {
             .document(auth.currentUser!!.email!!.toString())
             .collection("ChatChannel")
 
+
         arrayList.clear()
+
+
 
         //###############################################
         //Kullanıcının sohbetleri getirmek için.
         //###############################################
-
         dbRef.orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener {
                 for (chatChannel in it) {
@@ -75,4 +82,61 @@ class ChatListViewModel : ViewModel() {
                 }
             }
     }
+
+
+
 }
+
+/*
+
+        dbRef.orderBy("date", Query.Direction.DESCENDING)
+            .get().addOnSuccessListener {
+
+                for (i in it) {
+                    fullName.add(i["fullName"].toString())
+                    email.add(i["email"].toString())
+                    uuid.add(i["uuid"].toString())
+                }
+            }.addOnCompleteListener {
+
+                for (number in 0 until fullName.size) {
+
+                    val emailq = email[number]
+                    val fullName: String = fullName[number]
+
+                    val chatRef = db.collection("Chats")
+                    chatRef
+                        .document(uuid[number])
+                        .collection("chat")
+                        .orderBy("date", Query.Direction.DESCENDING)
+                        .get().addOnSuccessListener {
+
+                            for (i in it) {
+
+                                message.add(i["message"].toString())
+
+                                val dbRef = db.collection("Profile")
+                                    .document(emailq)
+                                dbRef.get().addOnSuccessListener { photoUrl ->
+
+                                    println(emailq)
+                                    val chat = ChatListData(
+                                        fullName,
+                                        emailq,
+                                        i["message"].toString(),
+                                        uuid[number],
+                                        "date",
+                                        photoUrl["photoUrl"].toString()
+                                    )
+
+                                    arrayList.add(chat)
+                                    chatListDataClass.postValue(arrayList)
+
+                                }
+
+                                break
+                            }
+                        }
+                }
+            }
+ */
