@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="userSearchData"
+            type="com.maden.story.model.SearchData" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="160dp"
+        android:layout_height="200dp"
+        android:orientation="vertical">
+
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/searchUserProfile"
+            android:layout_width="100dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_profile_place_holder"
+            android:scaleType="centerCrop"
+            android:downloadUrl="@{userSearchData.downloadPhotoUrl}"
+            />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:text="@{userSearchData.userName}"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:text="@{userSearchData.followers}"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+</layout>
