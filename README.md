@@ -2,8 +2,10 @@
 # Million
 Social messaging app 
 
-
     | Proje yapım aşamasındadır. Kodlar değişiklik gösterebilir. |
+ 
+[Million video link](https://www.youtube.com/watch?v=zHK36MT0y3c "Million video link")
+
 
 ## TR
 Proje içerisinde *Firebase / google-services.json* dosyası bulunmamaktadır. 
