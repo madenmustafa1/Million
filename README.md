@@ -3,8 +3,7 @@
 Social messaging app 
 
     | Proje yapım aşamasındadır. Kodlar değişiklik gösterebilir. |
- 
-[Million video link](https://www.youtube.com/watch?v=zHK36MT0y3c "Million video link")
+
 
 
 ## TR
