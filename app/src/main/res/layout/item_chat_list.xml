@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="chatListData"
+            type="com.maden.million.model.ChatListData" />
+
+
+    </data>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.CommentFragment"
+        android:orientation="horizontal">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="65dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:downloadUrl="@{chatListData.profilePhotoUrl}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile_place_holder"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--
+             -->
+            <TextView
+                android:text="@{chatListData.username}"
+
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/text_corners"
+
+                android:clickable="false"
+                android:fillViewport="true"
+                android:focusable="false"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:maxLines="1"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:scrollHorizontally="true"
+                android:hint="Username"
+
+                android:textColor="#2B2B2B"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <!--
+            android:text="@{showData.userTitle}"
+            -->
+
+            <EditText
+                android:text="@{chatListData.message}"
+
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/text_corners"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="clip_vertical"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:paddingStart="10dp"
+
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:scrollbars="vertical"
+                android:hint="Comment"
+                android:textColor="#323232"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".activity.BottomButtons"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_marginBottom="1dp"
+    android:background="@color/white"
+    >
+
+
+    <ImageView
+        android:id="@+id/bottomNewUserButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="0dp"
+        android:src="@drawable/ic_bottom_plane" />
+
+    <ImageView
+        android:id="@+id/bottomMessageButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="95dp"
+        android:src="@drawable/ic_bottom_chat_full" />
+
+    <ImageView
+        android:id="@+id/bottomUserProfileButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="100dp"
+        android:src="@drawable/ic_bottom_user"
+        />
+
+
+</LinearLayout>

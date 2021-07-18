@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <item android:title="Contact">
+
+        <menu>
+            <item
+                android:id="@+id/nav_contactUs_drawer"
+                android:icon="@drawable/ic_contactus"
+                android:title="Contact us" />
+
+            <item
+                android:id="@+id/nav_profile_drawer"
+                android:icon="@drawable/ic_info"
+                android:title="Info" />
+        </menu>
+    </item>
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sign_out_drawer"
+            android:icon="@drawable/ic_sign_out"
+            android:title="Sign out" />
+    </group>
+
+</menu>
