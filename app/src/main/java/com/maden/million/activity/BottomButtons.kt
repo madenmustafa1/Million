@@ -118,10 +118,6 @@ class BottomButtons : Fragment() {
         }
     }
 
-    fun asd(){
-        println("asd")
-    }
-
      fun navUserProfile() {
         if (GLOBAL_CURRENT_FRAGMENT != "profile") {
             when (GLOBAL_CURRENT_FRAGMENT) {
@@ -252,7 +248,7 @@ class BottomButtons : Fragment() {
     }
 
 
-    private fun navMessageIcon(){
+    fun navMessageIcon(){
         binding.bottomMessageButton.setImageResource(R.drawable.ic_bottom_chat_full)
         binding.bottomNewUserButton.setImageResource(R.drawable.ic_bottom_plane)
         binding.bottomUserProfileButton.setImageResource(R.drawable.ic_bottom_user)

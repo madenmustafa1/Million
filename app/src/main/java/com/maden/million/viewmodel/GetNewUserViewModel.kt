@@ -70,7 +70,7 @@ class GetNewUserViewModel : ViewModel() {
         val dbRef = db.collection("Profile")
             .document(auth.currentUser.email).collection("ChatChannel")
 
-        dbRef.add(myChatChannel).addOnSuccessListener {
+        dbRef.document(email).set(myChatChannel).addOnSuccessListener {
 
         }.addOnCompleteListener {  }.addOnFailureListener {
             println(it)

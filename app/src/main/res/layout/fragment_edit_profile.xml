@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.EditProfileFragment"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    >
+
+    <EditText
+
+        android:id="@+id/userProfileEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Profilini düzenle"
+        android:hint=""
+        android:textSize="20sp"
+        android:background="@drawable/text_corners_blue"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+
+        android:gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        android:inputType="textMultiLine|textNoSuggestions"
+
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp" />
+
+
+    <EditText
+
+        android:id="@+id/userAboutMeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text=""
+        android:hint="Hakkında"
+        android:textSize="14sp"
+        android:background="@drawable/text_corners_blue"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+
+        android:gravity="center_vertical"
+
+        android:inputType="textMultiLine"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp" />
+
+    <EditText
+        android:id="@+id/userInstagramAddressEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text=""
+        android:hint="Instagram kullanıcı adın"
+
+        android:textSize="14sp"
+        android:background="@drawable/text_corners_blue"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+
+        android:gravity="center_vertical"
+
+        android:inputType="textMultiLine"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp" />
+
+    <EditText
+        android:id="@+id/userFacebookAddressEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text=""
+        android:hint="Facebook kullanıcı adın"
+
+        android:textSize="14sp"
+        android:background="@drawable/text_corners_blue"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+
+        android:gravity="center_vertical"
+
+        android:inputType="textMultiLine"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp" />
+
+    <EditText
+        android:id="@+id/userTwitterAddressEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text=""
+        android:hint="Twitter kullanıcı adın"
+
+        android:textSize="14sp"
+        android:background="@drawable/text_corners_blue"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+
+        android:gravity="center_vertical"
+
+        android:inputType="textMultiLine"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp" />
+
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:text="Bitti"
+
+        android:layout_gravity="center"
+        android:background="@drawable/text_corners_blue"
+        android:layout_marginTop="10dp"
+
+
+        ></Button>
+
+
+
+
+
+</LinearLayout>

@@ -12,6 +12,8 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,6 +28,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
+import com.maden.million.activity.PopUpActivity
 import com.maden.million.databinding.FragmentChatListBinding
 import com.maden.million.databinding.FragmentProfileBinding
 import com.maden.million.util.downloadPhoto
@@ -79,6 +82,13 @@ class ProfileFragment : Fragment() {
 
         binding.userProfilePhoto.setOnClickListener { askForPermissions() }
 
+        binding.userAboutMe.setOnLongClickListener {
+            //val intent = Intent(requireActivity(), PopUpActivity::class.java)
+            //startActivity(intent)
+
+            true
+        }
+
         binding.profileInstagramIcon.setOnClickListener { goToMyInstagram() }
         binding.profileTwitterIcon.setOnClickListener { goToMyTwitter() }
         binding.profileFacebookIcon.setOnClickListener { goToMyFacebook() }
@@ -92,6 +102,7 @@ class ProfileFragment : Fragment() {
                 binding.userAboutMe.setText(it[0].aboutMe)
                 binding.userLikeText.text = it[0].like
                 binding.userDisLikeText.text = it[0].dislike
+
                 instagram = it[0].instagram
                 facebook = it[0].facebook
                 twitter = it[0].twitter

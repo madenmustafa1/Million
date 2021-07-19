@@ -71,13 +71,14 @@ class ChatViewModel : ViewModel() {
                 "uuid" to uuid.toString()
             )
 
+
             chatRef.document(roomUUID)
                 .collection("chat")
                 .add(data)
                 .addOnSuccessListener {
 
                 }.addOnCompleteListener {
-
+/*
                     val updateChatChannel = hashMapOf(
                         "fullName" to otherFullName,
                         "email" to auth.currentUser?.email.toString(),
@@ -85,13 +86,21 @@ class ChatViewModel : ViewModel() {
                         "uuid" to roomUUID
                     )
 
-                    val dbRef = db.collection("Profile")
-                        .document(otherEmail)
-                        .collection("ChatChannel")
-                        .document(auth.currentUser!!.email!!.toString())
-                        .set(updateChatChannel)
-
+ */
                 }
+            val dbRef = db.collection("Profile")
+
+                dbRef.document(otherEmail)
+                .collection("ChatChannel")
+                .document(auth.currentUser!!.email!!.toString())
+                .update("date", Timestamp.now())
+
+            dbRef.document(auth.currentUser!!.email!!.toString())
+                .collection("ChatChannel")
+                .document(otherEmail)
+                .update("date", Timestamp.now())
+
+            //.set(updateChatChannel)
         }
     }
 

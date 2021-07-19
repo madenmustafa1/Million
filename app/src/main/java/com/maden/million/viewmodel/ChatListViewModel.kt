@@ -7,7 +7,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maden.million.model.ChatListData
-import com.maden.million.model.DownloadPhotoUrl
 
 class ChatListViewModel : ViewModel() {
 
@@ -21,19 +20,110 @@ class ChatListViewModel : ViewModel() {
     val email = ArrayList<String>()
     val uuid = ArrayList<String>()
     val message = ArrayList<String>()
+    val photoUrlList = ArrayList<String>()
+
 
     fun getMyChatList() {
 
-        //###############################################
-        //Kullanıcının kimlerle mesajlaştığının bilgisi.
-        //###############################################
         val dbRef = db.collection("Profile")
             .document(auth.currentUser!!.email!!.toString())
             .collection("ChatChannel")
 
-
         arrayList.clear()
+        fullName.clear()
+        email.clear()
+        uuid.clear()
+        message.clear()
+        photoUrlList.clear()
 
+        var forSize: Int = 1
+
+        dbRef.orderBy("date", Query.Direction.DESCENDING)
+            .get().addOnSuccessListener {
+
+                for (i in it) {
+                    fullName.add(i["fullName"].toString())
+                    email.add(i["email"].toString())
+                    uuid.add(i["uuid"].toString())
+                }
+            }.addOnCompleteListener {
+                for (number in 0 until fullName.size) {
+                    message.add("")
+
+                    val chatRef = db.collection("Chats")
+                    chatRef
+                        .document(uuid[number])
+                        .collection("chat")
+                        .orderBy("date", Query.Direction.DESCENDING)
+                        .limit(1)
+                        .get().addOnSuccessListener {
+
+                            for (i in it) {
+
+                                forSize++
+                                message[number] = i["message"].toString()
+
+                                break
+                            }
+                        }.addOnCompleteListener {
+                            if(forSize == email.size){
+                                profilePhoto(email, fullName, uuid, message)
+                            }
+                        }
+                }
+            }
+    }
+
+    fun profilePhoto(email: ArrayList<String>, fullName: ArrayList<String>,
+                     uuid: ArrayList<String>, message: ArrayList<String>){
+
+        var forSize: Int = 1
+
+        for (number in 0 until fullName.size) {
+            photoUrlList.add("")
+
+            val dbRef = db.collection("Profile")
+                .document(email[number])
+            dbRef.get().addOnSuccessListener { photoUrl ->
+                forSize++
+                photoUrlList[number] = photoUrl["photoUrl"].toString()
+
+            }.addOnCompleteListener {
+                if(forSize == email.size){
+                    showChatList(email, fullName, uuid, message,  photoUrlList)
+                }
+            }
+
+        }
+    }
+
+    fun showChatList(email: ArrayList<String>, fullName: ArrayList<String>,
+                     uuid: ArrayList<String>, message: ArrayList<String>,
+                     photoUrl: ArrayList<String>){
+        for (number in 0 until photoUrl.size){
+
+            val chat = ChatListData(
+                fullName[number],
+                email[number],
+                message[number],
+                uuid[number],
+                "date",
+                photoUrlList[number].toString()
+            )
+
+            arrayList.add(chat)
+            chatListDataClass.postValue(arrayList)
+        }
+    }
+}
+
+
+
+
+/*
+        //###############################################
+        //Kullanıcının kimlerle mesajlaştığının bilgisi.
+        //###############################################
 
 
         //###############################################
@@ -81,62 +171,5 @@ class ChatListViewModel : ViewModel() {
                         }
                 }
             }
-    }
-
-
-
-}
-
-/*
-
-        dbRef.orderBy("date", Query.Direction.DESCENDING)
-            .get().addOnSuccessListener {
-
-                for (i in it) {
-                    fullName.add(i["fullName"].toString())
-                    email.add(i["email"].toString())
-                    uuid.add(i["uuid"].toString())
-                }
-            }.addOnCompleteListener {
-
-                for (number in 0 until fullName.size) {
-
-                    val emailq = email[number]
-                    val fullName: String = fullName[number]
-
-                    val chatRef = db.collection("Chats")
-                    chatRef
-                        .document(uuid[number])
-                        .collection("chat")
-                        .orderBy("date", Query.Direction.DESCENDING)
-                        .get().addOnSuccessListener {
-
-                            for (i in it) {
-
-                                message.add(i["message"].toString())
-
-                                val dbRef = db.collection("Profile")
-                                    .document(emailq)
-                                dbRef.get().addOnSuccessListener { photoUrl ->
-
-                                    println(emailq)
-                                    val chat = ChatListData(
-                                        fullName,
-                                        emailq,
-                                        i["message"].toString(),
-                                        uuid[number],
-                                        "date",
-                                        photoUrl["photoUrl"].toString()
-                                    )
-
-                                    arrayList.add(chat)
-                                    chatListDataClass.postValue(arrayList)
-
-                                }
-
-                                break
-                            }
-                        }
-                }
-            }
  */
+
