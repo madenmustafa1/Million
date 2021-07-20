@@ -84,7 +84,6 @@
 
 
 
-
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="50dp"
@@ -138,11 +137,13 @@
             android:id="@+id/userLikeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" 7"
+            android:text="7"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:fontFamily="sans-serif-black"
             android:textSize="25dp"
+            android:layout_marginStart="10dp"
+
             />
 
         <ImageView
@@ -154,7 +155,8 @@
             android:id="@+id/userDisLikeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" 1"
+            android:text="1"
+            android:layout_marginStart="10dp"
 
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -164,7 +166,39 @@
 
     </LinearLayout>
 
+
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/profile_background2">
+
+        <Button
+            android:id="@+id/editProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:text="Profili düzenle"
+            android:textStyle="bold"
+            android:background="#00000000"
+
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            >
+        </Button>
+
+    </LinearLayout>
+
 </LinearLayout>
+
+
+
 
 
 <!--

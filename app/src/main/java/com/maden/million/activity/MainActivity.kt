@@ -14,12 +14,16 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.maden.million.R
+import com.maden.million.util.OneSignalAppID
+import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.appbar_chat_list.toolbar
 
 var GLOBAL_CURRENT_FRAGMENT: String? = null
+//const val ONESIGNAL_APP_ID = "b94353b0-4a73-435e-926a-793397711fa7"
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +45,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_menu_view.setNavigationItemSelectedListener(this)
+
+
+
+        // Logging set to help debug issues, remove before releasing your app.
+        //OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
+        // OneSignal Initialization
+        OneSignal.initWithContext(this)
+        OneSignal.setAppId(OneSignalAppID.appID)
 
 
     }

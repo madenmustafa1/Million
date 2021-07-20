@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+
+    android:background="@drawable/login_background"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/goBackButtonEditProfile"
+            android:src="@drawable/ic_back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ImageView>
+
+        <TextView
+            android:layout_width="109dp"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/yellow_regular"
+            android:gravity="center"
+            android:text="Million"
+            android:textColor="#272727"
+            android:textSize="35sp"
+
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

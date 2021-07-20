@@ -9,6 +9,10 @@
     android:layout_gravity="center"
     >
 
+    <include
+        android:id="@+id/include3"
+        layout="@layout/appbar_edit_profile" />
+
     <EditText
 
         android:id="@+id/userProfileEditText"
@@ -38,7 +42,7 @@
 
     <EditText
 
-        android:id="@+id/userAboutMeEditText"
+        android:id="@+id/editProfileAboutMe"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text=""
@@ -61,7 +65,7 @@
         android:paddingBottom="5dp" />
 
     <EditText
-        android:id="@+id/userInstagramAddressEditText"
+        android:id="@+id/editProfileInstagram"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text=""
@@ -85,7 +89,7 @@
         android:paddingBottom="5dp" />
 
     <EditText
-        android:id="@+id/userFacebookAddressEditText"
+        android:id="@+id/editProfileFacebook"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text=""
@@ -109,7 +113,7 @@
         android:paddingBottom="5dp" />
 
     <EditText
-        android:id="@+id/userTwitterAddressEditText"
+        android:id="@+id/editProfileTwitter"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text=""
@@ -134,6 +138,7 @@
 
 
     <Button
+        android:id="@+id/editProfileSaveButton"
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:text="Bitti"

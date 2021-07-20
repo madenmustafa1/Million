@@ -12,15 +12,13 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
-import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -28,11 +26,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
-import com.maden.million.activity.PopUpActivity
-import com.maden.million.databinding.FragmentChatListBinding
 import com.maden.million.databinding.FragmentProfileBinding
 import com.maden.million.util.downloadPhoto
-import com.maden.million.viewmodel.ChatViewModel
 import com.maden.million.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.io.ByteArrayOutputStream
@@ -43,6 +38,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    private var aboutMe: String? = null
     private var instagram: String? = null
     private var facebook: String? = null
     private var twitter: String? = null
@@ -79,20 +75,16 @@ class ProfileFragment : Fragment() {
 
         observeMyProfileData()
 
-
         binding.userProfilePhoto.setOnClickListener { askForPermissions() }
 
-        binding.userAboutMe.setOnLongClickListener {
-            //val intent = Intent(requireActivity(), PopUpActivity::class.java)
-            //startActivity(intent)
-
-            true
-        }
-
+        binding.editProfile.setOnClickListener { goToEditProfile() }
         binding.profileInstagramIcon.setOnClickListener { goToMyInstagram() }
         binding.profileTwitterIcon.setOnClickListener { goToMyTwitter() }
         binding.profileFacebookIcon.setOnClickListener { goToMyFacebook() }
+
+
     }
+
 
     private fun observeMyProfileData() {
         profileViewModel.profileDataClass.observe(viewLifecycleOwner, Observer {
@@ -100,6 +92,8 @@ class ProfileFragment : Fragment() {
                 binding.userNameSurname.text = it[0].userNameSurname
                 binding.username.text = "#"+it[0].username
                 binding.userAboutMe.setText(it[0].aboutMe)
+                aboutMe = it[0].aboutMe
+
                 binding.userLikeText.text = it[0].like
                 binding.userDisLikeText.text = it[0].dislike
 
@@ -113,6 +107,34 @@ class ProfileFragment : Fragment() {
                 binding.userProfilePhoto.downloadPhoto(it)
             }
         })
+    }
+
+    private fun goToEditProfile(){
+
+        var instagram1: String = ""
+        var facebook1: String = ""
+        var twitter1: String = ""
+        var aboutMe1: String = ""
+
+        if(instagram != null) { instagram1 = instagram.toString() }
+        if(facebook != null) { facebook1 = facebook.toString() }
+        if(twitter  != null) { twitter1 = twitter.toString() }
+        if (aboutMe != null) { aboutMe1= aboutMe.toString() }
+
+        val action = ProfileFragmentDirections
+            .actionProfileFragmentToEditProfileFragment(
+                twitter1, facebook1,
+                aboutMe1, instagram1
+            )
+
+        Navigation.findNavController(
+            requireActivity(),
+            R.id.main_fragment_layout
+        )
+            .navigate(action)
+
+        GLOBAL_CURRENT_FRAGMENT = "edit_profile"
+
     }
 
     private fun goToMyInstagram(){
@@ -153,6 +175,7 @@ class ProfileFragment : Fragment() {
                 Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
 

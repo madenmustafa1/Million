@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_profileFragment_to_getNewUserFragment"
             app:destination="@id/getNewUserFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/otherProfileFragment"
@@ -105,5 +108,37 @@
         <action
             android:id="@+id/action_getNewUserFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.maden.million.view.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_chatListFragment"
+            app:destination="@id/chatListFragment" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_getNewUserFragment"
+            app:destination="@id/getNewUserFragment" />
+        <argument
+            android:name="twitter"
+            app:argType="string" />
+        <argument
+            android:name="facebook"
+            app:argType="string" />
+        <argument
+            android:name="aboutMe"
+            app:argType="string" />
+        <argument android:name="userInstagram"
+            app:argType="string" />
     </fragment>
 </navigation>
