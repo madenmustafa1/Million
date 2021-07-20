@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.appbar_chat_list.toolbar
 
 var GLOBAL_CURRENT_FRAGMENT: String? = null
-//const val ONESIGNAL_APP_ID = "b94353b0-4a73-435e-926a-793397711fa7"
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
