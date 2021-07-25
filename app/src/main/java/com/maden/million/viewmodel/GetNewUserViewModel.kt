@@ -4,9 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maden.million.model.NewUserData
+import com.maden.million.util.UserChatList
+
 import java.util.*
 
 
@@ -19,41 +22,86 @@ class GetNewUserViewModel : ViewModel() {
 
     val newChatRoomUUID = MutableLiveData<String>()
 
+    var newUser = MutableLiveData<Boolean>()
+
+    //*date*//
 
     fun getNewUser() {
-        var newUserEmail: String
 
-        val dbRef = db.collection("NewUserList")
-            .document("emails")
+        var newUserEmail: String? = null
 
-        dbRef.get().addOnSuccessListener {
+        var str: String
+        var id: Int? = null
 
-            val size = it["emailSize"] as Number
-            val randomNumber = (0..size.toInt()).random()
 
-            val emailList = it["emails"] as List<String>
+        val idRef = db.collection("Profile")
 
-            newUserEmail = emailList[randomNumber]
+        idRef
+            .orderBy("creationDate", Query.Direction.DESCENDING)
+            .limit(1)
+            .get().addOnSuccessListener {
+                for (i in it) {
 
-            val profileRef = db.collection("Profile")
-                .document(newUserEmail)
-                .get().addOnSuccessListener {
-                    val nameSurname = it["name"].toString() + " " +
-                            it["surname"].toString()
+                    str = i["id"].toString()
+                    id = str.toInt()
 
-                    val photoUrl = it["photoUrl"].toString()
-                    val username = it["username"].toString()
-                    val aboutMe = it["aboutMe"].toString()
-                    val email = it["email"].toString()
-
-                    val user = NewUserData(
-                        nameSurname, username,
-                        aboutMe, email, photoUrl
-                    )
-                    newUserDataClass.value = user
                 }
-        }
+            }.addOnCompleteListener {
+                if(id != null) {
+                    val randomNumber = (1..id!!).random()
+
+                    println("$randomNumber RANDOM NUMBERR")
+
+                    idRef
+                        .whereEqualTo("id", randomNumber)
+                        .get().addOnSuccessListener {
+                            for (i in it){
+                                newUserEmail = i["email"].toString()
+                                for (email in UserChatList.userEmail) {
+                                    if(newUserEmail == email) {
+                                        newUser.value = false
+                                        break
+                                    } else {
+                                        newUser.value = true
+                                    }
+                                }
+                            }
+                        }.addOnCompleteListener {
+
+                            if(newUser.value == true){
+                                val profileRef = db.collection("Profile")
+                                    .document(newUserEmail!!)
+                                    .get().addOnSuccessListener {
+                                        println(it["photoUrl"].toString())
+                                        println(it["username"].toString())
+                                        println(it["aboutMe"].toString())
+                                        println(it["email"].toString())
+
+                                        val nameSurname = it["name"].toString() + " " +
+                                                it["surname"].toString()
+
+                                        val photoUrl = it["photoUrl"].toString()
+                                        val username = it["username"].toString()
+                                        val aboutMe = it["aboutMe"].toString()
+                                        val email = it["email"].toString()
+
+
+
+                                        val user = NewUserData(
+                                            nameSurname, username,
+                                            aboutMe, email, photoUrl
+                                        )
+                                        newUserDataClass.value = user
+                                    }
+                            }
+                        }
+
+                }
+            }
     }
+
+
+
 
     fun startChat(email: String, fullName: String) {
         val roomUUID = UUID.randomUUID()
@@ -72,7 +120,7 @@ class GetNewUserViewModel : ViewModel() {
 
         dbRef.document(email).set(myChatChannel).addOnSuccessListener {
 
-        }.addOnCompleteListener {  }.addOnFailureListener {
+        }.addOnCompleteListener { }.addOnFailureListener {
             println(it)
         }
 
@@ -89,8 +137,7 @@ class GetNewUserViewModel : ViewModel() {
 
         otherDbRef.add(otherChatChannel).addOnSuccessListener {
 
-        }.addOnCompleteListener {  }
-
+        }.addOnCompleteListener { }
 
 
         val messageUUID = UUID.randomUUID()

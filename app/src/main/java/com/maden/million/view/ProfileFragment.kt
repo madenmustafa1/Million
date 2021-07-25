@@ -70,7 +70,8 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         GLOBAL_CURRENT_FRAGMENT = "profile"
 
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        profileViewModel = ViewModelProvider(this)
+            .get(ProfileViewModel::class.java)
         profileViewModel.getMyProfile()
 
         observeMyProfileData()

@@ -15,6 +15,7 @@ import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.databinding.FragmentChatBinding
 import com.maden.million.databinding.FragmentGetNewUserBinding
+import com.maden.million.util.UserChatList
 import com.maden.million.util.downloadPhoto
 import com.maden.million.viewmodel.GetNewUserViewModel
 import kotlinx.android.synthetic.main.fragment_get_new_user.*
@@ -69,6 +70,7 @@ class GetNewUserFragment : Fragment() {
             startChat(it)
         }
 
+
         observeData()
     }
 
@@ -96,6 +98,16 @@ class GetNewUserFragment : Fragment() {
         getNewUserViewModel.newChatRoomUUID.observe(viewLifecycleOwner, Observer {
             it?.let {
                 newUserRoomUUID = it
+            }
+        })
+
+        getNewUserViewModel.newUser.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(!it){
+                    println(it)
+                    getNewUserViewModel.getNewUser()
+
+                }
             }
         })
     }

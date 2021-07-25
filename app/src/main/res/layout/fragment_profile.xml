@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:text=""
-            android:hint="Hakkında hiçbir şey yok mu? \n Üzücü :( \n Eklemek için basılı tut!"
+            android:hint="Hakkında hiçbir şey yok mu? \n Üzücü :( \n Eklemeyi unutma! (Önerilir) "
 
             android:textSize="14sp"
             android:background="@drawable/text_corners_blue"

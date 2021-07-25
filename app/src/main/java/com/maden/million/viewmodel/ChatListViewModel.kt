@@ -7,6 +7,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maden.million.model.ChatListData
+import com.maden.million.util.UserChatList
 
 class ChatListViewModel : ViewModel() {
 
@@ -29,12 +30,19 @@ class ChatListViewModel : ViewModel() {
             .document(auth.currentUser!!.email!!.toString())
             .collection("ChatChannel")
 
+
+
+
+
         arrayList.clear()
         fullName.clear()
         email.clear()
         uuid.clear()
         message.clear()
         photoUrlList.clear()
+        //
+        UserChatList.userEmail.clear()
+        //
 
         var forSize: Int = 1
 
@@ -45,6 +53,10 @@ class ChatListViewModel : ViewModel() {
                     fullName.add(i["fullName"].toString())
                     email.add(i["email"].toString())
                     uuid.add(i["uuid"].toString())
+
+                    //
+                    UserChatList.userEmail.add(i["email"].toString())
+                    //
                 }
             }.addOnCompleteListener {
                 for (number in 0 until fullName.size) {

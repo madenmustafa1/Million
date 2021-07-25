@@ -113,6 +113,19 @@ class BottomButtons : Fragment() {
                     GLOBAL_CURRENT_FRAGMENT = "chat_list"
                     navMessageIcon()
                 }
+                "edit_profile" -> {
+                    val action = EditProfileFragmentDirections
+                        .actionEditProfileFragmentToChatListFragment()
+
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.main_fragment_layout
+                    )
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "chat_list"
+                    navMessageIcon()
+                }
             }
 
         }
@@ -178,6 +191,19 @@ class BottomButtons : Fragment() {
                     navProfileIcon()
 
                 }
+                "edit_profile" -> {
+                    val action = EditProfileFragmentDirections
+                        .actionEditProfileFragmentToProfileFragment()
+
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.main_fragment_layout
+                    )
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "profile"
+                    navProfileIcon()
+                }
             }
         }
     }
@@ -242,6 +268,19 @@ class BottomButtons : Fragment() {
                     GLOBAL_CURRENT_FRAGMENT = "new_user"
                     navNewUserIcon()
 
+                }
+                "edit_profile" -> {
+                    val action = EditProfileFragmentDirections
+                        .actionEditProfileFragmentToGetNewUserFragment()
+
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.main_fragment_layout
+                    )
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "new_user"
+                    navNewUserIcon()
                 }
             }
         }
