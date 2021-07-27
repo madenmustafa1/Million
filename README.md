@@ -25,9 +25,5 @@ Proje içerisinde *Firebase / google-services.json* dosyası bulunmamaktadır.
 There is no *Firebase / google-services.json* file in the project.
 For it to work, you need to create your own database at https://firebase.google.com/ and add the *google-services.json* file to your project.
 
-![4](https://user-images.githubusercontent.com/67011777/127228153-17f9c868-57a9-467a-9619-929ac0a6dcb3.png)
-![3](https://user-images.githubusercontent.com/67011777/127228154-9650500c-7716-4425-a643-dd4592584036.png)
-![1](https://user-images.githubusercontent.com/67011777/127228136-26d0d919-ef67-49c6-b060-7180af59926b.png)
-![2](https://user-images.githubusercontent.com/67011777/127228145-1023f7d8-558e-4459-9f20-6631a4595b46.png)
 
 
