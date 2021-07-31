@@ -258,7 +258,7 @@ class ProfileFragment : Fragment() {
                                     .downloadUrl.addOnSuccessListener {
                                         if (it != null) {
                                             photoUrl = it.toString()
-                                            println(it)
+
                                         }
                                     }.addOnCompleteListener {
                                         photoUrl?.let {

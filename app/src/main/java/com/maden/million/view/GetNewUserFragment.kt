@@ -11,10 +11,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.databinding.FragmentChatBinding
 import com.maden.million.databinding.FragmentGetNewUserBinding
+import com.maden.million.util.BannerControl
 import com.maden.million.util.UserChatList
 import com.maden.million.util.downloadPhoto
 import com.maden.million.viewmodel.GetNewUserViewModel
@@ -52,6 +57,8 @@ class GetNewUserFragment : Fragment() {
 
     private lateinit var getNewUserViewModel: GetNewUserViewModel
 
+    private var mRewardedAd: RewardedAd? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,6 +79,65 @@ class GetNewUserFragment : Fragment() {
 
 
         observeData()
+
+        /////
+        //Sonrasında farklı fragment'a alınacak.
+        /////
+        MobileAds.initialize(requireContext()) {}
+        //ca-app-pub-3940256099942544/5224354917
+        var adRequest = AdRequest.Builder().build()
+
+        RewardedAd.load(requireContext(),BannerControl.rewardTestID, adRequest, object : RewardedAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                println("Fail LoadError")
+                mRewardedAd = null
+            }
+
+            override fun onAdLoaded(rewardedAd: RewardedAd) {
+                mRewardedAd = rewardedAd
+            }
+        })
+
+        binding.rewardButtonGetNewUser.setOnClickListener {
+            getReward()
+        }
+    }
+
+
+    private fun getReward(){
+        mRewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdShowedFullScreenContent() {
+                //println("Reklam gösteriliyor")
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                // Called when ad fails to show.
+                //println("Reklam gösterilmedi")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+
+                //println("Reklam gösterildi ve kapatıldı")
+
+                getNewUserViewModel.rewardNewUserCount()
+                binding.newUserProfileLayout.visibility = View.GONE
+                binding.newUserProfileErrorLayout.visibility = View.GONE
+                binding.getNewUserButton.visibility = View.VISIBLE
+                mRewardedAd = null
+            }
+        }
+
+        if (mRewardedAd != null) {
+            mRewardedAd?.show(requireActivity(), OnUserEarnedRewardListener() {
+                fun onUserEarnedReward(rewardItem: RewardItem) {
+                    var rewardAmount = rewardItem.amount
+                    var rewardType = rewardItem.type
+                    //println("Kullanıcı hak kazandı")
+                }
+            })
+        } else {
+            //println("Ödülü gösterirken hata oluştu")
+        }
     }
 
 
@@ -79,7 +145,7 @@ class GetNewUserFragment : Fragment() {
         getNewUserViewModel.newUserDataClass.observe(viewLifecycleOwner, Observer {
             it?.let {
 
-                binding.newUserProfileInfo.visibility = View.VISIBLE
+                binding.newUserProfileLayout.visibility = View.VISIBLE
                 binding.getNewUserButton.visibility = View.GONE
                 binding.newUserNameSurname.text = it.userNameSurname
                 binding.newUserUsername.text = it.username
@@ -95,6 +161,18 @@ class GetNewUserFragment : Fragment() {
             }
         })
 
+        getNewUserViewModel.infoDataClass.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.newUserProfileErrorLayout.visibility = View.VISIBLE
+                binding.getNewUserButton.visibility = View.GONE
+                binding.waitUserLayout.visibility = View.GONE
+
+                binding.infoErrorText.text = it.info
+
+
+            }
+        })
+
         getNewUserViewModel.newChatRoomUUID.observe(viewLifecycleOwner, Observer {
             it?.let {
                 newUserRoomUUID = it
@@ -104,9 +182,18 @@ class GetNewUserFragment : Fragment() {
         getNewUserViewModel.newUser.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(!it){
-                    println(it)
-                    getNewUserViewModel.getNewUser()
+                    getNewUserViewModel.searchUSer()
+                }
+            }
+        })
 
+        getNewUserViewModel.waitUser.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    binding.waitUserLayout.visibility = View.VISIBLE
+                    binding.getNewUserButton.visibility = View.GONE
+                } else if(!it) {
+                    binding.waitUserLayout.visibility = View.GONE
                 }
             }
         })
@@ -138,7 +225,7 @@ class GetNewUserFragment : Fragment() {
         GLOBAL_CURRENT_FRAGMENT = "chat"
     }
 
-    fun moveToRocket() {
+    private fun moveToRocket() {
         /*
         val path = Path().apply {
             arcTo(0f, 0f, 1000f, 1000f, testAnim.pivotX, -360f, true)

@@ -111,6 +111,11 @@ class SignUpFragment : Fragment() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
+                                    /*
+                                    if(auth.currentUser?.email != null) {
+                                        auth.signOut()
+                                    }
+                                     */
                                     profileData()
                                     intentSignIn()
                                 } else {
@@ -168,7 +173,8 @@ class SignUpFragment : Fragment() {
                         "twitter" to "",
                         "photoUrl" to "",
                         "creationDate" to Timestamp.now(),
-                        "id" to id
+                        "id" to id,
+                        "isActive" to true
                     )
 
                     val dbRef = db.collection("Profile")
@@ -180,18 +186,7 @@ class SignUpFragment : Fragment() {
                         .addOnFailureListener { println("Fail$it") }
 
 
-                    /////////////////////////////////////////////////////
-                    /////////////////////////////////////////////////////
-                    /////////////////////////////////////////////////////
-                    val dbListRef = db.collection("NewUserList")
-                    dbListRef
-                        .document("emails")
-                        .update(
-                            "emails",
-                            FieldValue.arrayUnion(email),
-                            "emailSize",
-                            FieldValue.increment(1)
-                        )
+
                 } else {
                     Toast.makeText(
                         context,
@@ -202,3 +197,16 @@ class SignUpFragment : Fragment() {
             }
     }
 }
+
+
+/*
+                    val dbListRef = db.collection("NewUserList")
+                    dbListRef
+                        .document("emails")
+                        .update(
+                            "emails",
+                            FieldValue.arrayUnion(email),
+                            "emailSize",
+                            FieldValue.increment(1)
+                        )
+ */

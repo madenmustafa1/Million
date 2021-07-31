@@ -2,12 +2,14 @@ package com.maden.million.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maden.million.model.ChatListData
 import com.maden.million.util.UserChatList
+import com.onesignal.OneSignal
 
 class ChatListViewModel : ViewModel() {
 
@@ -17,11 +19,12 @@ class ChatListViewModel : ViewModel() {
     val chatListDataClass = MutableLiveData<ArrayList<ChatListData>>()
     val arrayList: ArrayList<ChatListData> = ArrayList<ChatListData>()
 
-    val fullName = ArrayList<String>()
+    private val fullName = ArrayList<String>()
     val email = ArrayList<String>()
-    val uuid = ArrayList<String>()
+    private val uuid = ArrayList<String>()
     val message = ArrayList<String>()
-    val photoUrlList = ArrayList<String>()
+    private val photoUrlList = ArrayList<String>()
+
 
 
     fun getMyChatList() {
@@ -31,6 +34,26 @@ class ChatListViewModel : ViewModel() {
             .collection("ChatChannel")
 
 
+        val userOneSignalID = db.collection("Profile")
+            .document(auth.currentUser!!.email!!.toString())
+
+        //Kullanıcının oturum açtığında OneSingal ID'si kontrol ediliyor
+        //yoksa oluşturulan id atanıyor.
+        //varsa ve mevcut id'yle eşleşmiyorsa değiştiriliyor.
+        userOneSignalID
+            .get().addOnSuccessListener {
+                val oneSignalID = it["oneSignalID"]
+
+                if(oneSignalID == null || oneSignalID == "") {
+                    userOneSignalID.update("oneSignalID",
+                        OneSignal.getDeviceState()?.userId)
+                }else {
+                    if (oneSignalID != OneSignal.getDeviceState()?.userId){
+                        userOneSignalID.update("oneSignalID",
+                            OneSignal.getDeviceState()?.userId)
+                    }
+                }
+            }
 
 
 
@@ -44,7 +67,7 @@ class ChatListViewModel : ViewModel() {
         UserChatList.userEmail.clear()
         //
 
-        var forSize: Int = 1
+        var forSize: Int = 0
 
         dbRef.orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener {
@@ -53,6 +76,7 @@ class ChatListViewModel : ViewModel() {
                     fullName.add(i["fullName"].toString())
                     email.add(i["email"].toString())
                     uuid.add(i["uuid"].toString())
+
 
                     //
                     UserChatList.userEmail.add(i["email"].toString())
@@ -71,27 +95,28 @@ class ChatListViewModel : ViewModel() {
                         .get().addOnSuccessListener {
 
                             for (i in it) {
-
                                 forSize++
                                 message[number] = i["message"].toString()
 
                                 break
                             }
                         }.addOnCompleteListener {
+
                             if(forSize == email.size){
                                 profilePhoto(email, fullName, uuid, message)
+
                             }
                         }
                 }
             }
     }
 
-    fun profilePhoto(email: ArrayList<String>, fullName: ArrayList<String>,
-                     uuid: ArrayList<String>, message: ArrayList<String>){
+    private fun profilePhoto(email: ArrayList<String>, fullName: ArrayList<String>,
+                             uuid: ArrayList<String>, message: ArrayList<String>){
 
-        var forSize: Int = 1
+        var forSize: Int = 0
 
-        for (number in 0 until fullName.size) {
+        for (number in 0 until fullName.size ) {
             photoUrlList.add("")
 
             val dbRef = db.collection("Profile")
@@ -109,11 +134,12 @@ class ChatListViewModel : ViewModel() {
         }
     }
 
-    fun showChatList(email: ArrayList<String>, fullName: ArrayList<String>,
-                     uuid: ArrayList<String>, message: ArrayList<String>,
-                     photoUrl: ArrayList<String>){
-        for (number in 0 until photoUrl.size){
+    private fun showChatList(email: ArrayList<String>, fullName: ArrayList<String>,
+                             uuid: ArrayList<String>, message: ArrayList<String>,
+                             photoUrl: ArrayList<String>){
 
+
+        for (number in 0 until photoUrl.size){
             val chat = ChatListData(
                 fullName[number],
                 email[number],
@@ -129,59 +155,4 @@ class ChatListViewModel : ViewModel() {
     }
 }
 
-
-
-
-/*
-        //###############################################
-        //Kullanıcının kimlerle mesajlaştığının bilgisi.
-        //###############################################
-
-
-        //###############################################
-        //Kullanıcının sohbetleri getirmek için.
-        //###############################################
-        dbRef.orderBy("date", Query.Direction.DESCENDING)
-            .get().addOnSuccessListener {
-                for (chatChannel in it) {
-
-                    val chatRef = db.collection("Chats")
-                    chatRef
-                        .document(chatChannel["uuid"].toString())
-                        .collection("chat")
-                        .orderBy("date", Query.Direction.DESCENDING)
-                        .get().addOnSuccessListener {
-                            for (i in it) {
-                                val email = chatChannel["email"] as String
-                                val fullName: String = chatChannel["fullName"].toString()
-
-                                //###############################################
-                                // Kulllanıcı Profil fotoğrafı.
-                                //###############################################
-
-                                //Düzenlenecek.
-                                val dbRef = db.collection("Profile")
-                                    .document(email)
-                                dbRef.get().addOnSuccessListener { photoUrl ->
-
-                                    val chat = ChatListData(
-                                        fullName,
-                                        email,
-                                        i["message"] as String,
-                                        chatChannel["uuid"] as String,
-                                        "date",
-                                        photoUrl["photoUrl"].toString()
-                                    )
-
-                                    arrayList.add(chat)
-                                    chatListDataClass.postValue(arrayList)
-
-                                }
-
-                                break
-                            }
-                        }
-                }
-            }
- */
 

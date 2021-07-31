@@ -4,15 +4,19 @@
 
 
     <item android:title="Contact">
-
         <menu>
+            <item
+                android:id="@+id/nav_premium_drawer"
+                android:icon="@drawable/ic_premium_icon"
+                android:title="Premium" />
+
             <item
                 android:id="@+id/nav_contactUs_drawer"
                 android:icon="@drawable/ic_contactus"
                 android:title="Contact us" />
 
             <item
-                android:id="@+id/nav_profile_drawer"
+                android:id="@+id/nav_info_drawer"
                 android:icon="@drawable/ic_info"
                 android:title="Info" />
         </menu>

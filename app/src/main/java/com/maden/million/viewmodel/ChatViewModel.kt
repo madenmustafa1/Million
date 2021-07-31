@@ -2,17 +2,16 @@ package com.maden.million.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.maden.million.R
-import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.adapter.ChatAdapter
 import com.maden.million.model.ChatData
-import com.maden.million.view.ChatFragmentDirections
+import com.onesignal.OneSignal
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,7 +31,8 @@ class ChatViewModel : ViewModel() {
         chatRef
             .document(uuid)
             .collection("chat")
-            .orderBy("date", Query.Direction.ASCENDING)
+            .orderBy("date", Query.Direction.DESCENDING)
+            .limit(200)
             .addSnapshotListener { value, error ->
                 if (value != null) {
 
@@ -51,12 +51,16 @@ class ChatViewModel : ViewModel() {
                         )
 
                         //val chatList = arrayListOf<ChatData>(chat)
+
                         chatList.add(chat)
+
                         chatDataClass.value = chatList
+                        //chatDataClass.postValue(chatList)
                     }
                 }
             }
     }
+
 
     fun sendMessage(message: String, otherEmail: String,
                     otherFullName: String, roomUUID: String) {
@@ -75,25 +79,47 @@ class ChatViewModel : ViewModel() {
             chatRef.document(roomUUID)
                 .collection("chat")
                 .add(data)
-                .addOnSuccessListener {
+                .addOnSuccessListener {}
+                .addOnCompleteListener {
 
-                }.addOnCompleteListener {
-/*
-                    val updateChatChannel = hashMapOf(
-                        "fullName" to otherFullName,
-                        "email" to auth.currentUser?.email.toString(),
-                        "date" to Timestamp.now(),
-                        "uuid" to roomUUID
-                    )
 
- */
+
                 }
             val dbRef = db.collection("Profile")
-
-                dbRef.document(otherEmail)
+            var nameSurname: String? = null
+            dbRef.document(otherEmail)
                 .collection("ChatChannel")
                 .document(auth.currentUser!!.email!!.toString())
                 .update("date", Timestamp.now())
+                .addOnCompleteListener {
+
+                    dbRef.document(auth.currentUser!!.email!!.toString())
+                        .get().addOnSuccessListener {
+                            nameSurname  = it["name"].toString() + " " +
+                                    it["surname"].toString()
+
+
+                        }.addOnCompleteListener {
+                            dbRef.document(otherEmail)
+                                .get().addOnSuccessListener {
+                                    val oneSignalID = it["oneSignalID"]
+
+                                    if(oneSignalID != null && oneSignalID != "") {
+                                        try {
+
+                                            OneSignal.postNotification(
+                                                JSONObject("{'contents': {'en':'${ nameSurname }: ${ message }'}, 'include_player_ids': ['" + oneSignalID.toString() + "']}"),
+                                                null
+                                            )
+                                        } catch (e: JSONException) {
+                                            e.printStackTrace()
+                                        }
+                                    }
+                                }
+                        }
+
+
+                }
 
             dbRef.document(auth.currentUser!!.email!!.toString())
                 .collection("ChatChannel")
@@ -103,7 +129,5 @@ class ChatViewModel : ViewModel() {
             //.set(updateChatChannel)
         }
     }
-
-
 }
 

@@ -1,10 +1,10 @@
 package com.maden.million.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -71,8 +71,11 @@ class ChatFragment : Fragment() {
             }
         }
 
-        binding.chatRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.chatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+
         binding.chatRecyclerView.adapter = chatAdapter
+
+
 
         binding.sendMessageButton.setOnClickListener { sendMessage() }
 
@@ -86,6 +89,7 @@ class ChatFragment : Fragment() {
         chatViewModel.chatDataClass.observe(viewLifecycleOwner, Observer {
             it?.let {
                 chatAdapter.updateChatList(it)
+                //binding.chatRecyclerView.scrollToPosition(chatAdapter.itemCount - 1)
             }
         })
 
