@@ -5,7 +5,7 @@
 Million, her gün farklı kişilerle rastgele olarak sizleri eleştirir ve mesajlaşma imkanı sağlar. 
 
 
-![Özellik Grafiği](https://user-images.githubusercontent.com/67011777/127402214-5f645697-90a4-4b64-b723-3adfcc5175fd.png)
+![Özellik Grafiği](https://user-images.githubusercontent.com/67011777/127402214-5f645697-90a4-4b64-b723-3adfcc5175fd.png 180x180.png)
 
 
 
