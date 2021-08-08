@@ -8,6 +8,9 @@ Million, her gün farklı kişilerle rastgele olarak sizleri eleştirir ve mesaj
 ![Özellik Grafiği](https://user-images.githubusercontent.com/67011777/127402214-5f645697-90a4-4b64-b723-3adfcc5175fd.png)
 
 
+-------------------------------
+
+
 Google Play: https://play.google.com/store/apps/details?id=com.maden.million
 
 
