@@ -66,7 +66,7 @@ class SignInFragment : Fragment() {
         val service = retrofit.create(UserAPI::class.java)
 
         //(Test şifresidir.)
-        val call = service.loginUser("playmood778@gmail.com", "123456")
+        val call = service.loginUser("test.maden@gmail.com", "123456")
 
         call.enqueue(object : Callback<RequestUser> {
             override fun onResponse(call: Call<RequestUser>, response: Response<RequestUser>) {
