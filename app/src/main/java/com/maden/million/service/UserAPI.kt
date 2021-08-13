@@ -12,15 +12,12 @@ interface UserAPI {
 
 
     @FormUrlEncoded
-    @POST("api/users/login")
+    @POST("your api")
     fun loginUser(
         @Field ("email") email: String,
         @Field ("password") password: String
     ): Call<RequestUser>
 
-    /*
-    @POST("api/users/login")
-    suspend fun getData(@Body requestUser: RequestBody): Response<ResponseBody>
-     */
+
 
 }
