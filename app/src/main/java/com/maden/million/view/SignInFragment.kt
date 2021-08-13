@@ -10,10 +10,21 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.maden.million.R
 import com.maden.million.activity.MainActivity
+import com.maden.million.model.UserModel
+import com.maden.million.service.RequestUser
+import com.maden.million.service.UserAPI
+import com.maden.million.util.ServerInfo
+import com.maden.million.util.UserData
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SignInFragment : Fragment() {
@@ -41,16 +52,52 @@ class SignInFragment : Fragment() {
 
         signUpText.setOnClickListener { intentSignUp() }
         signInButton.setOnClickListener { signIn(view) }
+
+        login("", "")
     }
 
-    fun intentSignUp(){
+
+    private fun login(email: String, password: String){
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ServerInfo.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(UserAPI::class.java)
+
+        //(Test şifresidir.)
+        val call = service.loginUser("playmood778@gmail.com", "123456")
+
+        call.enqueue(object : Callback<RequestUser> {
+            override fun onResponse(call: Call<RequestUser>, response: Response<RequestUser>) {
+                if(response.isSuccessful){
+                    response.body()?.let {
+
+                        println(it.message)
+                        //println(it.token)
+                        UserData.loginTOKEN = it.token
+                        println(UserData.loginTOKEN)
+
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<RequestUser>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+    }
+
+
+
+    private fun intentSignUp(){
         val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
         Navigation.findNavController(requireActivity(), R.id.loginContainer).navigate(action)
     }
 
     private var email: String? = null
     private var password: String? = null
-    fun signIn(view: View){
+    private fun signIn(view: View){
 
         email = emailTextSignIn.text.toString()
         password = passwordTextSignIn.text.toString()
@@ -78,7 +125,7 @@ class SignInFragment : Fragment() {
 
     }
 
-    fun intentSignIn(){
+    private fun intentSignIn(){
         val intent = Intent(context, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

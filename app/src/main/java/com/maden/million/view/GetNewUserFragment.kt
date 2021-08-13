@@ -1,8 +1,6 @@
 package com.maden.million.view
 
 import android.animation.ObjectAnimator
-import android.graphics.Path
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,15 +13,11 @@ import com.google.android.gms.ads.*
 import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
-import com.maden.million.databinding.FragmentChatBinding
 import com.maden.million.databinding.FragmentGetNewUserBinding
 import com.maden.million.util.BannerControl
-import com.maden.million.util.UserChatList
 import com.maden.million.util.downloadPhoto
 import com.maden.million.viewmodel.GetNewUserViewModel
-import kotlinx.android.synthetic.main.fragment_get_new_user.*
 
 
 class GetNewUserFragment : Fragment() {
@@ -87,9 +81,9 @@ class GetNewUserFragment : Fragment() {
         //ca-app-pub-3940256099942544/5224354917
         var adRequest = AdRequest.Builder().build()
 
-        RewardedAd.load(requireContext(),BannerControl.rewardTestID, adRequest, object : RewardedAdLoadCallback() {
+        RewardedAd.load(requireContext(),BannerControl.REWARD_ID, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                println("Fail LoadError")
+                //println("Fail LoadError")
                 mRewardedAd = null
             }
 
@@ -166,10 +160,16 @@ class GetNewUserFragment : Fragment() {
                 binding.newUserProfileErrorLayout.visibility = View.VISIBLE
                 binding.getNewUserButton.visibility = View.GONE
                 binding.waitUserLayout.visibility = View.GONE
-
                 binding.infoErrorText.text = it.info
-
-
+            }
+        })
+        getNewUserViewModel.errorUser.observe(viewLifecycleOwner, Observer {
+            if(it){
+                binding.newUserProfileErrorLayout.visibility = View.VISIBLE
+                binding.getNewUserButton.visibility = View.GONE
+                binding.waitUserLayout.visibility = View.GONE
+                binding.rewardButtonGetNewUser.visibility = View.GONE
+                binding.infoErrorText.text = "Yeni kullanıcı getirilirken sorun yaşandı :/ Lütfen daha sonra tekrar dene."
             }
         })
 

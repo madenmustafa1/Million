@@ -46,7 +46,7 @@
 
                 android:clickable="false"
                 android:focusable="false"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:inputType="textMultiLine|textNoSuggestions"
                 android:paddingStart="10dp"
 

@@ -10,13 +10,16 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maden.million.R
 import com.maden.million.util.OneSignalAppID
-import com.maden.million.view.BannerFragment
+import com.maden.million.view.*
+import com.maden.million.viewmodel.AppOpenViewModel
 import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.appbar_chat_list.*
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var db = Firebase.firestore
     private var auth = Firebase.auth
 
+    private lateinit var appOpenViewModel: AppOpenViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +48,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         setSupportActionBar(toolbar)
+
+        appOpenViewModel = ViewModelProvider(this).get(AppOpenViewModel::class.java)
+        appOpenViewModel.open()
 
         //Navigation Drawer
         nav_menu_view.bringToFront()
@@ -142,19 +149,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
+            R.id.nav_user_report_drawer -> {
+                navUserReport()
+            }
+            /*
             R.id.nav_info_drawer -> {
                 Toast.makeText(this, "Yakında hizmete girecek!",
                     Toast.LENGTH_SHORT).show()
-
             }
             R.id.nav_contactUs_drawer -> {
-
                 Toast.makeText(this, "Yakında hizmete girecek!",
                     Toast.LENGTH_SHORT).show()
-
             }
+             */
             R.id.nav_premium_drawer -> {
 
                 Toast.makeText(this, "Yakında hizmete girecek!",
@@ -168,6 +179,62 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.closeDrawer(GravityCompat.END)
         return true
+    }
+
+
+    private fun navUserReport(){
+        if (GLOBAL_CURRENT_FRAGMENT != "user_report") {
+            when (GLOBAL_CURRENT_FRAGMENT) {
+                "chat" -> {
+                    val action = ChatFragmentDirections
+                        .actionChatFragmentToReportUserFragment()
+                    Navigation.findNavController(this, R.id.main_fragment_layout)
+                        .navigate(action)
+                    GLOBAL_CURRENT_FRAGMENT = "user_report"
+                }
+                "profile" -> {
+                    val action = ProfileFragmentDirections
+                        .actionProfileFragmentToReportUserFragment()
+                    Navigation.findNavController(this, R.id.main_fragment_layout)
+                        .navigate(action)
+                    GLOBAL_CURRENT_FRAGMENT = "user_report"
+                }
+                "other_profile" -> {
+                    val action =
+                        OtherProfileFragmentDirections
+                            .actionOtherProfileFragmentToReportUserFragment()
+
+                    Navigation.findNavController(this, R.id.main_fragment_layout)
+                        .navigate(action)
+                    GLOBAL_CURRENT_FRAGMENT = "user_report"
+                }
+                "new_user" -> {
+                    val action = GetNewUserFragmentDirections
+                        .actionGetNewUserFragmentToReportUserFragment()
+
+                    Navigation.findNavController(this, R.id.main_fragment_layout)
+                        .navigate(action)
+                    GLOBAL_CURRENT_FRAGMENT = "user_report"
+                }
+                "edit_profile" -> {
+                    val action = EditProfileFragmentDirections
+                        .actionEditProfileFragmentToReportUserFragment()
+
+                    Navigation.findNavController(this, R.id.main_fragment_layout)
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "user_report"
+                }
+                "chat_list" -> {
+                    val action = ChatListFragmentDirections
+                        .actionChatListFragmentToReportUserFragment()
+
+                    Navigation.findNavController(this, R.id.main_fragment_layout)
+                        .navigate(action)
+                    GLOBAL_CURRENT_FRAGMENT = "user_report"
+                }
+            }
+        }
     }
 }
 

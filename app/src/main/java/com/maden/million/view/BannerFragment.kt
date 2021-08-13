@@ -26,6 +26,7 @@ class BannerFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        showBanner = false
         _binding = null
     }
 
@@ -38,6 +39,7 @@ class BannerFragment : Fragment() {
         return binding.root
     }
 
+    var showBanner: Boolean = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,7 +65,8 @@ class BannerFragment : Fragment() {
 
     private suspend fun destroyBanner(){
         delay(5000)
-        binding.adView.visibility = View.GONE
-
+        if(showBanner == true){
+            binding.adView.visibility = View.GONE
+        }
     }
 }

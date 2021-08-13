@@ -22,6 +22,12 @@
         <action
             android:id="@+id/action_chatListFragment_to_getNewUserFragment"
             app:destination="@id/getNewUserFragment" />
+        <action
+            android:id="@+id/action_chatListFragment_to_reportUserFragment"
+            app:destination="@id/reportUserFragment" />
+        <action
+            android:id="@+id/action_chatListFragment_to_reportUserFragment2"
+            app:destination="@id/reportUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -51,6 +57,9 @@
         <action
             android:id="@+id/action_chatFragment_to_getNewUserFragment"
             app:destination="@id/getNewUserFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_reportUserFragment"
+            app:destination="@id/reportUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -69,6 +78,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_reportUserFragment"
+            app:destination="@id/reportUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/otherProfileFragment"
@@ -93,6 +105,9 @@
         <action
             android:id="@+id/action_otherProfileFragment_to_getNewUserFragment2"
             app:destination="@id/getNewUserFragment" />
+        <action
+            android:id="@+id/action_otherProfileFragment_to_reportUserFragment"
+            app:destination="@id/reportUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/getNewUserFragment"
@@ -108,6 +123,12 @@
         <action
             android:id="@+id/action_getNewUserFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_getNewUserFragment_to_reportUserFragment"
+            app:destination="@id/reportUserFragment" />
+        <action
+            android:id="@+id/action_getNewUserFragment_to_reportUserFragment2"
+            app:destination="@id/reportUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -140,5 +161,26 @@
             app:argType="string" />
         <argument android:name="userInstagram"
             app:argType="string" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_reportUserFragment"
+            app:destination="@id/reportUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportUserFragment"
+        android:name="com.maden.million.view.ReportUserFragment"
+        android:label="fragment_report_user"
+        tools:layout="@layout/fragment_report_user" >
+        <action
+            android:id="@+id/action_reportUserFragment_to_getNewUserFragment"
+            app:destination="@id/getNewUserFragment" />
+        <action
+            android:id="@+id/action_reportUserFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_reportUserFragment_to_chatListFragment"
+            app:destination="@id/chatListFragment" />
+        <action
+            android:id="@+id/action_reportUserFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

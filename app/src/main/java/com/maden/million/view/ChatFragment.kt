@@ -69,6 +69,9 @@ class ChatFragment : Fragment() {
             if (chatUUID != null) {
                 chatViewModel.getMyChat(chatUUID!!)
             }
+            if(otherEmail != null || otherEmail != ""){
+                chatViewModel.userOnline(otherEmail!!)
+            }
         }
 
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
@@ -90,6 +93,22 @@ class ChatFragment : Fragment() {
             it?.let {
                 chatAdapter.updateChatList(it)
                 //binding.chatRecyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+            }
+        })
+
+        chatViewModel.userHour.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                otherUserOnlineTextAppBar.visibility = View.VISIBLE
+                otherUserHourAppBar.visibility = View.VISIBLE
+                otherUserHourAppBar.text = it
+            }
+        })
+        chatViewModel.userDate.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                otherUserOnlineTextAppBar.text = "Son görülme:"
+                otherUserDateAppBar.visibility = View.VISIBLE
+                val dateText = "$it  |"
+                otherUserDateAppBar.text = dateText
             }
         })
 

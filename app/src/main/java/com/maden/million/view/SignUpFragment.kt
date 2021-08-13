@@ -11,7 +11,6 @@ import androidx.navigation.Navigation
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -70,12 +69,15 @@ class SignUpFragment : Fragment() {
 
     }
 
-    fun intentSignIn() {
+    private fun intentSignIn() {
         val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
         Navigation.findNavController(requireActivity(), R.id.loginContainer).navigate(action)
+        if(auth.currentUser.email != null) {
+            auth.signOut()
+        }
     }
 
-    fun signUpF(view: View) {
+    private fun signUpF(view: View) {
         name = nameTextSignUp.text.toString()
         surname = surnameTextSignUp.text.toString()
         username = usernameTextSignUp.text.toString()
@@ -117,7 +119,7 @@ class SignUpFragment : Fragment() {
                                     }
                                      */
                                     profileData()
-                                    intentSignIn()
+
                                 } else {
                                     Toast.makeText(
                                         context,
@@ -139,7 +141,8 @@ class SignUpFragment : Fragment() {
         activity?.finish()
     }
 
-    fun profileData() {
+    private fun profileData() {
+        signUpButton.visibility = View.GONE
 
         var str: String
         var id: Int? = null
@@ -149,12 +152,23 @@ class SignUpFragment : Fragment() {
             .orderBy("creationDate", Query.Direction.DESCENDING)
             .limit(1)
             .get().addOnSuccessListener {
-                for (i in it) {
-                    str = i["id"].toString()
-                    id = str.toInt()
-                    if (id != null){
-                        id = id!! + 1
+
+                if(it != null) {
+                    for (i in it) {
+
+                        if (i["id"] != null){
+                            str = i["id"].toString()
+                            id = str.toInt()
+
+                            if (id != null){
+                                id = id!! + 1
+                            }
+                        } else {
+                            id = 1
+                        }
                     }
+                } else{
+                    id = 1
                 }
             }.addOnCompleteListener {
                 if(id != null){
@@ -184,6 +198,9 @@ class SignUpFragment : Fragment() {
                         .set(profile)
                         .addOnSuccessListener { }
                         .addOnFailureListener { println("Fail$it") }
+                        .addOnCompleteListener {
+                            intentSignIn()
+                        }
 
 
 

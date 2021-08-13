@@ -84,7 +84,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
                 android:scrollbars="vertical"
-                android:hint="Comment"
+                android:hint="Message"
                 android:textColor="#323232"
                 android:textSize="15sp" />
 

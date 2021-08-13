@@ -1,6 +1,8 @@
 package com.maden.million.view
 
+import android.Manifest
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,12 +15,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -43,6 +48,8 @@ class ProfileFragment : Fragment() {
     private var facebook: String? = null
     private var twitter: String? = null
 
+    private var selectedBitmap: Bitmap? = null
+
 
     private lateinit var profileViewModel: ProfileViewModel
     val intent = Intent()
@@ -65,6 +72,9 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,9 +86,18 @@ class ProfileFragment : Fragment() {
 
         observeMyProfileData()
 
-        binding.userProfilePhoto.setOnClickListener { askForPermissions() }
+
+        registerLauncher()
+
+
+        binding.userProfilePhoto.setOnClickListener {
+            //askForPermissions()
+            askForPermissions2(it)
+
+        }
 
         binding.editProfile.setOnClickListener { goToEditProfile() }
+
         binding.profileInstagramIcon.setOnClickListener { goToMyInstagram() }
         binding.profileTwitterIcon.setOnClickListener { goToMyTwitter() }
         binding.profileFacebookIcon.setOnClickListener { goToMyFacebook() }
@@ -91,7 +110,7 @@ class ProfileFragment : Fragment() {
         profileViewModel.profileDataClass.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.userNameSurname.text = it[0].userNameSurname
-                binding.username.text = "#"+it[0].username
+                binding.username.text = "#" + it[0].username
                 binding.userAboutMe.setText(it[0].aboutMe)
                 aboutMe = it[0].aboutMe
 
@@ -110,17 +129,201 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun goToEditProfile(){
+
+
+    //--------------------
+
+    fun askForPermissions2(view: View) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+
+                Snackbar.make(
+                    view,
+                    "Galeriye gitmek için izin vermelisin",
+                    Snackbar.LENGTH_INDEFINITE
+                ).setAction("İzin veriyorum", View.OnClickListener {
+                    //Request Permission
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+
+                }).show()
+
+            } else {
+                //Request Permission
+                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+
+        } else {
+            val intentToGallery =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            activityResultLauncher.launch(intentToGallery)
+
+
+        }
+    }
+
+
+
+    private fun registerLauncher() {
+        activityResultLauncher =
+            registerForActivityResult(
+                ActivityResultContracts
+                    .StartActivityForResult()
+            ) { result ->
+
+                if (result.resultCode == RESULT_OK) {
+                    val intentFromResult = result.data
+
+                    if (intentFromResult != null) {
+                        val imageData = intentFromResult.data
+                        //binding.userProfilePhoto.setImageURI(imageData)
+                        if (imageData != null) {
+                            try {
+                                if (Build.VERSION.SDK_INT >= 28) {
+                                    val source = ImageDecoder.createSource(requireActivity().contentResolver, imageData)
+                                    selectedBitmap = ImageDecoder.decodeBitmap(source)
+                                    binding.userProfilePhoto.setImageBitmap(selectedBitmap)
+                                    saveProfilePhoto(selectedBitmap!!)
+
+                                } else {
+                                    selectedBitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageData)
+
+                                    binding.userProfilePhoto.setImageBitmap(selectedBitmap)
+                                    saveProfilePhoto(selectedBitmap!!)
+                                }
+
+
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){ result ->
+
+            if(result){
+                //Permission granted
+                val intentToGallery =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+            } else {
+                Toast.makeText(requireContext(), "Galeri için izin gerekli!", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun makeSmallerBitmap(image: Bitmap, maximumSize: Int): Bitmap {
+        var width = image.width
+        var height = image.height
+
+        val bitmapRatio:  Double = width.toDouble() / height.toDouble()
+
+        //Yatay görsel
+        if(bitmapRatio > 1) {
+            width = maximumSize
+            val scaledHeight = width / bitmapRatio
+            height = scaledHeight.toInt()
+
+
+
+        } else {
+            //Portrait
+            height = maximumSize
+            val scaledHeight = height / bitmapRatio
+            width = scaledHeight.toInt()
+
+        }
+
+        return Bitmap.createScaledBitmap(image,width, height, true)
+    }
+
+
+
+    private fun saveProfilePhoto(bitmap: Bitmap){
+
+        val ref = storage.reference
+        val bit = bitmap
+        val baos = ByteArrayOutputStream()
+        bit.compress(Bitmap.CompressFormat.JPEG, 65, baos)
+        val data = baos.toByteArray()
+        ref.child(auth.currentUser!!.email!!).child("profilePhoto").putBytes(data)
+            .addOnSuccessListener {
+                var photoUrl: String = ""
+
+
+                ref.child(auth.currentUser.email)
+                    .child("profilePhoto")
+                    .downloadUrl.addOnSuccessListener {
+                        if (it != null) {
+                            photoUrl = it.toString()
+
+                        }
+                    }.addOnCompleteListener {
+                        photoUrl?.let {
+                            var dataU = hashMapOf("photoUrl" to photoUrl)
+
+                            db.collection("Profile")
+                                .document(auth.currentUser.email)
+                                .set(dataU, SetOptions.merge())
+                                .addOnSuccessListener {
+
+
+                                }
+                                .addOnFailureListener {
+
+                                }
+                        }
+                    }
+
+
+            }.addOnFailureListener {
+                println(it.localizedMessage)
+            }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    private fun goToEditProfile() {
 
         var instagram1: String = ""
         var facebook1: String = ""
         var twitter1: String = ""
         var aboutMe1: String = ""
 
-        if(instagram != null) { instagram1 = instagram.toString() }
-        if(facebook != null) { facebook1 = facebook.toString() }
-        if(twitter  != null) { twitter1 = twitter.toString() }
-        if (aboutMe != null) { aboutMe1= aboutMe.toString() }
+        if (instagram != null) {
+            instagram1 = instagram.toString()
+        }
+        if (facebook != null) {
+            facebook1 = facebook.toString()
+        }
+        if (twitter != null) {
+            twitter1 = twitter.toString()
+        }
+        if (aboutMe != null) {
+            aboutMe1 = aboutMe.toString()
+        }
 
         val action = ProfileFragmentDirections
             .actionProfileFragmentToEditProfileFragment(
@@ -138,48 +341,52 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun goToMyInstagram(){
-        if(instagram != null && instagram != ""){
+    private fun goToMyInstagram() {
+        if (instagram != null && instagram != "") {
             intent.action = Intent.ACTION_VIEW
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = Uri.parse("https://www.instagram.com/$instagram")
             startActivity(intent)
         } else {
-            Toast.makeText(context,
+            Toast.makeText(
+                context,
                 "Instagram adresi bulunamadı",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
-    private fun goToMyTwitter(){
-        if(twitter != null && twitter != ""){
+
+    private fun goToMyTwitter() {
+        if (twitter != null && twitter != "") {
             intent.action = Intent.ACTION_VIEW
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = Uri.parse("https://www.twitter.com/$twitter")
             startActivity(intent)
         } else {
-            Toast.makeText(context,
+            Toast.makeText(
+                context,
                 "Twitter adresi bulunamadı",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
-    private fun goToMyFacebook(){
-        if(facebook != null && facebook != ""){
+
+    private fun goToMyFacebook() {
+        if (facebook != null && facebook != "") {
             intent.action = Intent.ACTION_VIEW
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = Uri.parse("https://www.facebook.com/$facebook")
             startActivity(intent)
         } else {
-            Toast.makeText(context,
+            Toast.makeText(
+                context,
                 "Facebook adresi bulunamadı",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
-
-
-
-
 
 
     //####### ####### ####### ####### #######

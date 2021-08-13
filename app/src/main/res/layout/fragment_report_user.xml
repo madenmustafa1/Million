@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ReportUserFragment"
+    android:orientation="vertical"
+    >
+    <include
+        android:id="@+id/report_user"
+        layout="@layout/appbar_chat_list" />
+
+
+
+
+    <EditText
+
+        android:id="@+id/userProfileEditText"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:text="Seni rahatsız eden birisi mi var? Onun adına özür dileriz. Bize bildirmek için aşağıdaki alanları eksiksiz doldurmayı unutma."
+        android:hint=""
+        android:textSize="20sp"
+        android:background="@drawable/text_corners_blue"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+
+        android:gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        android:inputType="textMultiLine|textNoSuggestions"
+
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        >
+        <EditText
+            android:id="@+id/reportUserUsername"
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:text=""
+            android:hint="Kullanıcı adı"
+            android:textSize="14sp"
+            android:background="@drawable/text_corners_blue"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+        <EditText
+            android:id="@+id/reportNameSurname"
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:text=""
+            android:hint="Adı ve Soyadı"
+            android:textSize="14sp"
+            android:background="@drawable/text_corners_blue"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+        <EditText
+            android:id="@+id/reportUserReportText"
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:text=""
+            android:hint="Şikayetiniz"
+            android:textSize="14sp"
+            android:background="@drawable/text_corners_blue"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/reportUserFinishButton"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:text="Gönder"
+        android:layout_gravity="center"
+        android:background="@drawable/text_corners_blue"
+        android:layout_marginTop="10dp"
+        />
+
+</LinearLayout>

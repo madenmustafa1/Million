@@ -11,12 +11,12 @@ import com.maden.million.model.InfoData
 import com.maden.million.model.NewUserData
 import com.maden.million.util.Info
 import com.maden.million.util.UserChatList
-import java.text.SimpleDateFormat
 
 import java.util.*
 
 
-class GetNewUserViewModel : ViewModel() {
+class
+GetNewUserViewModel : ViewModel() {
 
     private var db = Firebase.firestore
     private var auth = Firebase.auth
@@ -29,12 +29,14 @@ class GetNewUserViewModel : ViewModel() {
     var newUser = MutableLiveData<Boolean>()
     var waitUser = MutableLiveData<Boolean>()
 
+    var errorUser = MutableLiveData<Boolean>()
+
 
     private var accessNewUser: Boolean? = null
 
     //*date*//
 
-    fun getNewUser() {
+        fun getNewUser() {
 
         waitUser.value = true
         var newUserCount: Int? = null
@@ -108,95 +110,109 @@ class GetNewUserViewModel : ViewModel() {
         }
     }
 
+    var count: Int = 0
 
     fun searchUSer() {
+        count++
 
-        var newUserEmail: String? = null
+        if(count < 7){
+            var newUserEmail: String? = null
 
-        var str: String
-        var id: Int? = null
-        val idRef = db.collection("Profile")
+            var str: String
+            var id: Int? = null
+            val idRef = db.collection("Profile")
 
-        idRef
-            .orderBy("creationDate", Query.Direction.DESCENDING)
-            .limit(1)
-            .get().addOnSuccessListener {
-                for (i in it) {
+            idRef
+                .orderBy("creationDate", Query.Direction.DESCENDING)
+                .limit(1)
+                .get().addOnSuccessListener {
+                    for (i in it) {
+                        str = i["id"].toString()
+                        id = str.toInt()
+                    }
+                }.addOnCompleteListener {
+                    if (id != null) {
+                        val randomNumber = (1..id!!).random()
 
-                    str = i["id"].toString()
-                    id = str.toInt()
+                        idRef
+                            .whereEqualTo("id", randomNumber)
+                            .get().addOnSuccessListener {
+                                for (i in it) {
 
-                }
-            }.addOnCompleteListener {
-                if (id != null) {
-                    val randomNumber = (1..id!!).random()
+                                    newUserEmail = i["email"].toString()
 
-                    idRef
-                        .whereEqualTo("id", randomNumber)
-                        .get().addOnSuccessListener {
-                            for (i in it) {
-                                newUserEmail = i["email"].toString()
-
-                                if (UserChatList.userEmail.isEmpty()){
-                                    newUser.value = true
-                                } else {
-                                    if(UserChatList.userEmail.size >= 0){
-
-                                        for (email in UserChatList.userEmail) {
-                                            if (newUserEmail == email) {
-                                                newUser.value = false
-                                                break
-                                            } else {
-                                                newUser.value = true
-                                            }
+                                    if (UserChatList.userEmail.isEmpty()){
+                                        if (auth.currentUser.email.toString() == newUserEmail) {
+                                            newUser.value = false
+                                            break
                                         }
-                                    } else {
                                         newUser.value = true
-                                        break
+                                    } else {
+
+                                        if(UserChatList.userEmail.size >= 0){
+
+                                            for (email in UserChatList.userEmail) {
+
+
+                                                if (newUserEmail == email || auth.currentUser.email.toString() == newUserEmail) {
+                                                    newUser.value = false
+                                                    break
+                                                } else {
+                                                    newUser.value = true
+                                                }
+                                            }
+                                        } else {
+
+                                            newUser.value = true
+                                            break
+                                        }
                                     }
                                 }
+                            }.addOnCompleteListener {
+
+                                if (newUser.value == true) {
+
+                                    val profileRef = db.collection("Profile")
+                                        .document(newUserEmail!!)
+                                        .get().addOnSuccessListener {
 
 
+                                            val nameSurname = it["name"].toString() + " " +
+                                                    it["surname"].toString()
+
+                                            val photoUrl = it["photoUrl"].toString()
+                                            val username = it["username"].toString()
+                                            val aboutMe = it["aboutMe"].toString()
+                                            val email = it["email"].toString()
+
+
+                                            waitUser.value = false
+
+                                            val user = NewUserData(
+                                                nameSurname, username,
+                                                aboutMe, email, photoUrl
+                                            )
+                                            newUserDataClass.value = user
+
+                                            val dateRef = db.collection("Profile")
+                                                .document(auth.currentUser!!.email!!)
+                                            dateRef.update("newUserDate", Timestamp.now())
+                                        }
+                                }
                             }
-                        }.addOnCompleteListener {
 
-                            if (newUser.value == true) {
-
-                                val profileRef = db.collection("Profile")
-                                    .document(newUserEmail!!)
-                                    .get().addOnSuccessListener {
-
-
-                                        val nameSurname = it["name"].toString() + " " +
-                                                it["surname"].toString()
-
-                                        val photoUrl = it["photoUrl"].toString()
-                                        val username = it["username"].toString()
-                                        val aboutMe = it["aboutMe"].toString()
-                                        val email = it["email"].toString()
-
-
-                                        waitUser.value = false
-
-                                        val user = NewUserData(
-                                            nameSurname, username,
-                                            aboutMe, email, photoUrl
-                                        )
-                                        newUserDataClass.value = user
-
-                                        val dateRef = db.collection("Profile")
-                                            .document(auth.currentUser!!.email!!)
-                                        dateRef.update("newUserDate", Timestamp.now())
-                                    }
-                            }
-                        }
-
+                    }
                 }
-            }
+        } else {
+            errorUser.value = true
+        }
     }
 
 
+
     fun startChat(email: String, fullName: String) {
+
+
         val roomUUID = UUID.randomUUID()
 
         newChatRoomUUID.value = roomUUID.toString()

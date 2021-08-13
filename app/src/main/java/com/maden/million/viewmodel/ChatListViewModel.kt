@@ -2,14 +2,12 @@ package com.maden.million.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maden.million.model.ChatListData
 import com.maden.million.util.UserChatList
-import com.onesignal.OneSignal
 
 class ChatListViewModel : ViewModel() {
 
@@ -34,28 +32,6 @@ class ChatListViewModel : ViewModel() {
             .collection("ChatChannel")
 
 
-        val userOneSignalID = db.collection("Profile")
-            .document(auth.currentUser!!.email!!.toString())
-
-        //Kullanıcının oturum açtığında OneSingal ID'si kontrol ediliyor
-        //yoksa oluşturulan id atanıyor.
-        //varsa ve mevcut id'yle eşleşmiyorsa değiştiriliyor.
-        userOneSignalID
-            .get().addOnSuccessListener {
-                val oneSignalID = it["oneSignalID"]
-
-                if(oneSignalID == null || oneSignalID == "") {
-                    userOneSignalID.update("oneSignalID",
-                        OneSignal.getDeviceState()?.userId)
-                }else {
-                    if (oneSignalID != OneSignal.getDeviceState()?.userId){
-                        userOneSignalID.update("oneSignalID",
-                            OneSignal.getDeviceState()?.userId)
-                    }
-                }
-            }
-
-
 
         arrayList.clear()
         fullName.clear()
@@ -69,6 +45,8 @@ class ChatListViewModel : ViewModel() {
 
         var forSize: Int = 0
 
+
+        //Kullanıcının konuştuklarını tarihe göre sıralama
         dbRef.orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener {
 
@@ -77,7 +55,6 @@ class ChatListViewModel : ViewModel() {
                     email.add(i["email"].toString())
                     uuid.add(i["uuid"].toString())
 
-
                     //
                     UserChatList.userEmail.add(i["email"].toString())
                     //
@@ -85,6 +62,7 @@ class ChatListViewModel : ViewModel() {
             }.addOnCompleteListener {
                 for (number in 0 until fullName.size) {
                     message.add("")
+
 
                     val chatRef = db.collection("Chats")
                     chatRef
@@ -96,6 +74,7 @@ class ChatListViewModel : ViewModel() {
 
                             for (i in it) {
                                 forSize++
+
                                 message[number] = i["message"].toString()
 
                                 break

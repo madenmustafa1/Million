@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.maden.million.R
 import com.maden.million.databinding.FragmentBottomButtonsBinding
 import com.maden.million.view.*
@@ -126,10 +127,26 @@ class BottomButtons : Fragment() {
                     GLOBAL_CURRENT_FRAGMENT = "chat_list"
                     navMessageIcon()
                 }
+
+                "user_report" -> {
+                    val action = ReportUserFragmentDirections
+                        .actionReportUserFragmentToChatListFragment()
+
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.main_fragment_layout
+                    )
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "chat_list"
+                    navMessageIcon()
+                }
             }
 
         }
     }
+
+
 
      fun navUserProfile() {
         if (GLOBAL_CURRENT_FRAGMENT != "profile") {
@@ -194,6 +211,20 @@ class BottomButtons : Fragment() {
                 "edit_profile" -> {
                     val action = EditProfileFragmentDirections
                         .actionEditProfileFragmentToProfileFragment()
+
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.main_fragment_layout
+                    )
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "profile"
+                    navProfileIcon()
+                }
+
+                "user_report" -> {
+                    val action = ReportUserFragmentDirections
+                        .actionReportUserFragmentToProfileFragment()
 
                     Navigation.findNavController(
                         requireActivity(),
@@ -282,12 +313,25 @@ class BottomButtons : Fragment() {
                     GLOBAL_CURRENT_FRAGMENT = "new_user"
                     navNewUserIcon()
                 }
+                "user_report" -> {
+                    val action = ReportUserFragmentDirections
+                        .actionReportUserFragmentToGetNewUserFragment()
+
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.main_fragment_layout
+                    )
+                        .navigate(action)
+
+                    GLOBAL_CURRENT_FRAGMENT = "new_user"
+                    navNewUserIcon()
+                }
             }
         }
     }
 
 
-    fun navMessageIcon(){
+    private fun navMessageIcon(){
         binding.bottomMessageButton.setImageResource(R.drawable.ic_bottom_chat_full)
         binding.bottomNewUserButton.setImageResource(R.drawable.ic_bottom_plane)
         binding.bottomUserProfileButton.setImageResource(R.drawable.ic_bottom_user)

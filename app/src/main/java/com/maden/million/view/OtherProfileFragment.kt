@@ -10,10 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.maden.million.R
 import com.maden.million.activity.GLOBAL_CURRENT_FRAGMENT
 import com.maden.million.databinding.FragmentOtherProfileBinding
-import com.maden.million.databinding.FragmentProfileBinding
 import com.maden.million.util.downloadPhoto
 import com.maden.million.viewmodel.OtherProfileViewModel
 import kotlinx.android.synthetic.main.fragment_other_profile.*
