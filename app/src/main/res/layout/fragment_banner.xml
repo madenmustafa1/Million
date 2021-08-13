@@ -10,7 +10,7 @@
     >
 
     <!-- TEST: ca-app-pub-3940256099942544/6300978111 -->
-    <!-- ca-app-pub-3615578423337127/1520670194 -->
+
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
